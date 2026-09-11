@@ -17,9 +17,8 @@ A aplicação deverá representar regras relacionadas à evolução do aluno den
 
 ## Integrantes
 
-- PREENCHER
-- PREENCHER
-- PREENCHER
+Gustavo Champam
+Gustavo Camargo
 
 ## Tecnologias previstas
 
