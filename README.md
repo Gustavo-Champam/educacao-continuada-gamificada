@@ -23,10 +23,10 @@ Liberação de três cursos e premiação por fórum não fazem parte das duas U
 
 | História | Conteúdo | Autor da US e dos BDD |
 | --- | --- | --- |
-| US01 — Aluno Básico | Alterar o plano para Premium ao atingir 12 cursos válidos | **PENDENTE: identificar qual integrante é o responsável** |
+| US01 — Aluno Básico | Alterar o plano para Premium ao atingir 12 cursos válidos | **Gustavo Camargo** |
 | US02 — Aluno Premium | Receber voucher e três moedas após a promoção | **PENDENTE: identificar o outro integrante** |
 
-O responsável pela US01 confirmou que sua parte termina na mudança de status, mas não informou qual dos dois nomes lhe corresponde. A autoria não foi inferida pelo dono do repositório. Os commits de preparação assistida estão identificados como Codex; não substituem a identificação da contribuição acadêmica individual.
+Gustavo Camargo é o responsável pela US01 e pelos respectivos BDD, com escopo até a alteração de Básico para Premium. A autoria da US02 ainda precisa ser confirmada. Os commits de preparação assistida estão identificados como Codex; não substituem a identificação da contribuição acadêmica individual.
 
 ## US escolhida e BDD
 
@@ -176,7 +176,7 @@ O workflow `.github/workflows/verificar.yml` foi preparado para testes H2/Postgr
 
 ## Pendências antes da entrega
 
-- Identificar autores de US e BDD no README e na planilha.
+- Registrar Gustavo Camargo como responsável pela US01 e seus BDD na planilha e confirmar a autoria da US02.
 - Substituir o exemplo de jogos da segunda aba do Excel pelos cenários da aplicação.
 - Executar JUnit RED/GREEN/BLUE no IntelliJ Ultimate e guardar prints.
 - Medir a cobertura real e resolver linhas/ramos exigidos pela professora.
