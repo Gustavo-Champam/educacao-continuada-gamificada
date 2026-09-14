@@ -1,4 +1,4 @@
-﻿package br.com.educacao.gamificada.domaintest;
+package br.com.educacao.gamificada.domaintest;
 
 import br.com.educacao.gamificada.domain.Aluno;
 import br.com.educacao.gamificada.domain.Plano;

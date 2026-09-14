@@ -1,0 +1,58 @@
+name: Verificar US01
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: educacao_testes
+          POSTGRES_USER: educacao
+          POSTGRES_PASSWORD: senha_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U educacao -d educacao_testes"
+          --health-interval 5s --health-timeout 5s --health-retries 12
+    env:
+      TESTAR_POSTGRES: 'true'
+      DB_URL: jdbc:postgresql://localhost:5432/educacao_testes
+      DB_USER: educacao
+      DB_PASSWORD: senha_ci
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+      - name: Testar com H2 e PostgreSQL e medir cobertura
+        run: mvn -B clean verify
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: testes-e-cobertura
+          path: |
+            target/surefire-reports/
+            target/site/jacoco/
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Instalar dependências
+        working-directory: frontend
+        run: npm install
+      - name: Compilar Vue
+        working-directory: frontend
+        run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: frontend-compilado
+          path: frontend/dist/

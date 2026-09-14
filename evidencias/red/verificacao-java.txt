@@ -1,0 +1,18 @@
+Reexecução da versão RED 45be164; verificação auxiliar Java (não JUnit).
+FAIL: 12o curso com media 7 promove -- AssertionError
+FAIL: 11o curso mantem Basico -- AssertionError
+PASS: media 0.0 nao conta nem promove
+PASS: media 6.99 nao conta nem promove
+FAIL: nao repete promocao -- AssertionError
+PASS: consulta dados iniciais
+FAIL: rejeita media -0.01 -- AssertionError
+FAIL: rejeita media 10.01 -- AssertionError
+FAIL: rejeita media NaN -- AssertionError
+FAIL: rejeita media Infinity -- AssertionError
+FAIL: rejeita media -Infinity -- AssertionError
+FAIL: rejeita nome nulo -- AssertionError
+FAIL: rejeita nome vazio -- AssertionError
+FAIL: rejeita plano nulo -- AssertionError
+FAIL: rejeita contagem negativa -- AssertionError
+RESULTADO: 3 passaram; 12 falharam.
+Código de saída: 1

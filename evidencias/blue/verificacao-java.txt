@@ -1,0 +1,16 @@
+PASS: 12o curso com media 7 promove
+PASS: 11o curso mantem Basico
+PASS: media 0.0 nao conta nem promove
+PASS: media 6.99 nao conta nem promove
+PASS: nao repete promocao
+PASS: consulta dados iniciais
+PASS: rejeita media -0.01
+PASS: rejeita media 10.01
+PASS: rejeita media NaN
+PASS: rejeita media Infinity
+PASS: rejeita media -Infinity
+PASS: rejeita nome nulo
+PASS: rejeita nome vazio
+PASS: rejeita plano nulo
+PASS: rejeita contagem negativa
+RESULTADO: 15 passaram; 0 falharam.
