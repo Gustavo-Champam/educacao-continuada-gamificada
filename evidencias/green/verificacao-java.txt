@@ -1,0 +1,1 @@
+scripts/verificar-dominio.sh: line 5: javac: command not found
