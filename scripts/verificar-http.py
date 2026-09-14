@@ -5,6 +5,7 @@ import time
 from datetime import datetime, timezone
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
+from http.client import HTTPException
 from pathlib import Path
 
 base = sys.argv[1] if len(sys.argv) > 1 else "http://localhost:8080"
@@ -25,7 +26,7 @@ for attempt in range(90):
     try:
         call("/api/alunos")
         break
-    except (URLError, AssertionError, TimeoutError):
+    except (OSError, HTTPException, AssertionError):
         if attempt == 89:
             raise
         time.sleep(2)

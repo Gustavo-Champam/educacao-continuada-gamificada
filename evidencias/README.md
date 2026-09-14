@@ -4,6 +4,8 @@ Execução local: **14/09/2026**, Java 17, Maven, JUnit 5, PostgreSQL 18 dedicad
 
 ## Testes e cobertura
 
+- [RED JUnit US01](red/us01-junit.log) e [GREEN JUnit US01](green/us01-junit.log), reexecutados a partir dos commits históricos.
+
 - [RED: três falhas JUnit US02](red/us02-junit.log).
 - [RED: aceite HTTP e idempotência](red/us02-aceitacao.log).
 - [RED: histórico da carteira ausente](red/historico-carteira.log).
@@ -25,6 +27,8 @@ Execução local: **14/09/2026**, Java 17, Maven, JUnit 5, PostgreSQL 18 dedicad
 ![H2 com consultas SQL](execucao/h2-console.png)
 
 [Respostas HTTP e histórico com H2](execucao/h2-http.json).
+
+[Respostas HTTP com PostgreSQL](execucao/postgres-http.json) e [consultas SQL reais](execucao/postgres-sql.txt).
 
 ## PostgreSQL e Docker
 

@@ -110,8 +110,8 @@ A transação de conclusão bloqueia o aluno para atualização, grava a aprova�
 
 | Etapa | Commit / arquivo | Resultado |
 | --- | --- | --- |
-| RED US01 | `45be164` e `evidencias/red/verificacao-java.txt` | Histórico preservado da implementação do colega |
-| GREEN US01 | `82e7c49` | Implementação mínima preservada |
+| RED US01 | `45be164` e `evidencias/red/us01-junit.log` | JUnit reexecutado a partir do commit histórico; falhas esperadas |
+| GREEN US01 | `82e7c49` e `evidencias/green/us01-junit.log` | JUnit reexecutado: 12 testes aprovados |
 | BLUE US01 | `af3e96e` | Refatoração preservada |
 | RED US02 | `94d0807`, `evidencias/red/us02-junit.log` | 3 testes executados, 3 falhas de asserção |
 | RED integração US02 | `dca15de`, `evidencias/red/us02-aceitacao.log` | 20 testes, 5 falhas esperadas |
