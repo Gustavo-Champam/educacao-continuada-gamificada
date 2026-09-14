@@ -2,6 +2,8 @@ package br.com.educacao.gamificada.domain;
 
 public class Aluno {
 
+    private static final int VOUCHERS_PREMIUM = 1;
+    private static final int MOEDAS_PREMIUM = 3;
     private static final double MEDIA_MINIMA = 7.0;
     private static final int CURSOS_PARA_PREMIUM = 12;
 
@@ -56,8 +58,8 @@ public class Aluno {
     public int getMoedas() { return moedas; }
     public void concederRecompensasPremium() {
         if (plano == Plano.PREMIUM) {
-            vouchers = 1;
-            moedas = 3;
+            vouchers = VOUCHERS_PREMIUM;
+            moedas = MOEDAS_PREMIUM;
         }
     }
 

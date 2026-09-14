@@ -77,13 +77,10 @@
                         <goals><goal>report</goal></goals>
                     </execution>
                     <execution>
-                        <id>cobertura-dominio</id>
+                        <id>cobertura-aplicacao</id>
                         <phase>verify</phase>
                         <goals><goal>check</goal></goals>
                         <configuration>
-                            <includes>
-                                <include>br/com/educacao/gamificada/domain/*.class</include>
-                            </includes>
                             <rules>
                                 <rule>
                                     <element>BUNDLE</element>

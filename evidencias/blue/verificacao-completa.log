@@ -1,0 +1,181 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------< br.com.educacao:educacao-gamificada >-----------------
+[INFO] Building educacao-gamificada 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.1:clean (default-clean) @ educacao-gamificada ---
+[INFO] Deleting C:\Users\Gustavo\Downloads\educacao-gamificada-primeiros-commits\educacao-gamificada-primeiros-commits\projeto-git\target
+[INFO] 
+[INFO] --- jacoco:0.8.13:prepare-agent (instrumentar-testes) @ educacao-gamificada ---
+[INFO] argLine set to -javaagent:C:\\Users\\Gustavo\\.m2\\repository\\org\\jacoco\\org.jacoco.agent\\0.8.13\\org.jacoco.agent-0.8.13-runtime.jar=destfile=C:\\Users\\Gustavo\\Downloads\\educacao-gamificada-primeiros-commits\\educacao-gamificada-primeiros-commits\\projeto-git\\target\\jacoco.exec
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ educacao-gamificada ---
+[INFO] Copying 3 resources from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ educacao-gamificada ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 15 source files with javac [debug parameters release 17] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ educacao-gamificada ---
+[INFO] Copying 1 resource from src\test\resources to target\test-classes
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ educacao-gamificada ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 6 source files with javac [debug parameters release 17] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ educacao-gamificada ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running br.com.educacao.gamificada.AlunoPostgresTest
+08:56:19.504 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [br.com.educacao.gamificada.AlunoPostgresTest]: AlunoPostgresTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+08:56:19.675 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration br.com.educacao.gamificada.EducacaoGamificadaApplication for test class br.com.educacao.gamificada.AlunoPostgresTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.16)
+
+2026-09-14T08:56:20.378-03:00  INFO 21028 --- [educacao-gamificada] [           main] b.c.e.gamificada.AlunoPostgresTest       : Starting AlunoPostgresTest using Java 17.0.12 with PID 21028 (started by Gustavo in C:\Users\Gustavo\Downloads\educacao-gamificada-primeiros-commits\educacao-gamificada-primeiros-commits\projeto-git)
+2026-09-14T08:56:20.380-03:00  INFO 21028 --- [educacao-gamificada] [           main] b.c.e.gamificada.AlunoPostgresTest       : The following 1 profile is active: "postgres"
+2026-09-14T08:56:21.451-03:00  INFO 21028 --- [educacao-gamificada] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-14T08:56:21.539-03:00  INFO 21028 --- [educacao-gamificada] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 73 ms. Found 2 JPA repository interfaces.
+2026-09-14T08:56:22.132-03:00  INFO 21028 --- [educacao-gamificada] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-14T08:56:22.236-03:00  INFO 21028 --- [educacao-gamificada] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.53.Final
+2026-09-14T08:56:22.299-03:00  INFO 21028 --- [educacao-gamificada] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-09-14T08:56:22.869-03:00  INFO 21028 --- [educacao-gamificada] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-14T08:56:22.923-03:00  INFO 21028 --- [educacao-gamificada] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-09-14T08:56:23.124-03:00  INFO 21028 --- [educacao-gamificada] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5aad32b3
+2026-09-14T08:56:23.126-03:00  INFO 21028 --- [educacao-gamificada] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-09-14T08:56:23.258-03:00  INFO 21028 --- [educacao-gamificada] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 18.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-14T08:56:24.789-03:00  INFO 21028 --- [educacao-gamificada] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-14T08:56:24.878-03:00  WARN 21028 --- [educacao-gamificada] [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-09-14T08:56:24.878-03:00  WARN 21028 --- [educacao-gamificada] [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "uk_aluno_curso" of relation "conclusoes_cursos" does not exist, skipping
+2026-09-14T08:56:24.888-03:00  INFO 21028 --- [educacao-gamificada] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-14T08:56:25.269-03:00  INFO 21028 --- [educacao-gamificada] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-09-14T08:56:27.052-03:00  INFO 21028 --- [educacao-gamificada] [           main] b.c.e.gamificada.AlunoPostgresTest       : Started AlunoPostgresTest in 7.122 seconds (process running for 8.701)
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.617 s -- in br.com.educacao.gamificada.AlunoPostgresTest
+[INFO] Running br.com.educacao.gamificada.controller.AlunoControllerTest
+2026-09-14T08:56:27.871-03:00  INFO 21028 --- [educacao-gamificada] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.educacao.gamificada.controller.AlunoControllerTest]: AlunoControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-14T08:56:27.905-03:00  INFO 21028 --- [educacao-gamificada] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.educacao.gamificada.EducacaoGamificadaApplication for test class br.com.educacao.gamificada.controller.AlunoControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.16)
+
+2026-09-14T08:56:27.941-03:00  INFO 21028 --- [educacao-gamificada] [           main] b.c.e.g.controller.AlunoControllerTest   : Starting AlunoControllerTest using Java 17.0.12 with PID 21028 (started by Gustavo in C:\Users\Gustavo\Downloads\educacao-gamificada-primeiros-commits\educacao-gamificada-primeiros-commits\projeto-git)
+2026-09-14T08:56:27.942-03:00  INFO 21028 --- [educacao-gamificada] [           main] b.c.e.g.controller.AlunoControllerTest   : The following 1 profile is active: "test"
+2026-09-14T08:56:28.157-03:00  INFO 21028 --- [educacao-gamificada] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-14T08:56:28.172-03:00  INFO 21028 --- [educacao-gamificada] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 14 ms. Found 2 JPA repository interfaces.
+2026-09-14T08:56:28.264-03:00  INFO 21028 --- [educacao-gamificada] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-14T08:56:28.268-03:00  INFO 21028 --- [educacao-gamificada] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-09-14T08:56:28.282-03:00  INFO 21028 --- [educacao-gamificada] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-14T08:56:28.284-03:00  INFO 21028 --- [educacao-gamificada] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-09-14T08:56:28.674-03:00  INFO 21028 --- [educacao-gamificada] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection conn0: url=jdbc:h2:mem:educacao_testes user=SA
+2026-09-14T08:56:28.674-03:00  INFO 21028 --- [educacao-gamificada] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-09-14T08:56:28.694-03:00  INFO 21028 --- [educacao-gamificada] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-14T08:56:28.772-03:00  INFO 21028 --- [educacao-gamificada] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-14T08:56:28.825-03:00  INFO 21028 --- [educacao-gamificada] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-14T08:56:29.059-03:00  INFO 21028 --- [educacao-gamificada] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-14T08:56:29.059-03:00  INFO 21028 --- [educacao-gamificada] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-14T08:56:29.062-03:00  INFO 21028 --- [educacao-gamificada] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-09-14T08:56:29.079-03:00  INFO 21028 --- [educacao-gamificada] [           main] b.c.e.g.controller.AlunoControllerTest   : Started AlunoControllerTest in 1.17 seconds (process running for 10.728)
+2026-09-14T08:56:29.589-03:00  INFO 21028 --- [educacao-gamificada] [           main] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 371 ms
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.836 s -- in br.com.educacao.gamificada.controller.AlunoControllerTest
+[INFO] Running br.com.educacao.gamificada.controller.TratamentoErrosTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in br.com.educacao.gamificada.controller.TratamentoErrosTest
+[INFO] Running br.com.educacao.gamificada.domain.AlunoTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 s -- in br.com.educacao.gamificada.domain.AlunoTest
+[INFO] Running br.com.educacao.gamificada.domaintest.AlunoPremiumTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in br.com.educacao.gamificada.domaintest.AlunoPremiumTest
+[INFO] Running br.com.educacao.gamificada.EducacaoGamificadaApplicationTests
+2026-09-14T08:56:30.744-03:00  INFO 21028 --- [educacao-gamificada] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [br.com.educacao.gamificada.EducacaoGamificadaApplicationTests]: EducacaoGamificadaApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-14T08:56:30.747-03:00  INFO 21028 --- [educacao-gamificada] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration br.com.educacao.gamificada.EducacaoGamificadaApplication for test class br.com.educacao.gamificada.EducacaoGamificadaApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.16)
+
+2026-09-14T08:56:30.774-03:00  INFO 21028 --- [educacao-gamificada] [           main] c.e.g.EducacaoGamificadaApplicationTests : Starting EducacaoGamificadaApplicationTests using Java 17.0.12 with PID 21028 (started by Gustavo in C:\Users\Gustavo\Downloads\educacao-gamificada-primeiros-commits\educacao-gamificada-primeiros-commits\projeto-git)
+2026-09-14T08:56:30.774-03:00  INFO 21028 --- [educacao-gamificada] [           main] c.e.g.EducacaoGamificadaApplicationTests : The following 1 profile is active: "test"
+2026-09-14T08:56:30.933-03:00  INFO 21028 --- [educacao-gamificada] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-14T08:56:30.947-03:00  INFO 21028 --- [educacao-gamificada] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12 ms. Found 2 JPA repository interfaces.
+2026-09-14T08:56:31.013-03:00  INFO 21028 --- [educacao-gamificada] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-14T08:56:31.016-03:00  INFO 21028 --- [educacao-gamificada] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-09-14T08:56:31.026-03:00  INFO 21028 --- [educacao-gamificada] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-14T08:56:31.028-03:00  INFO 21028 --- [educacao-gamificada] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2026-09-14T08:56:31.029-03:00  INFO 21028 --- [educacao-gamificada] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection conn10: url=jdbc:h2:mem:educacao_testes user=SA
+2026-09-14T08:56:31.029-03:00  INFO 21028 --- [educacao-gamificada] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2026-09-14T08:56:31.029-03:00  INFO 21028 --- [educacao-gamificada] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-3)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-14T08:56:31.071-03:00  INFO 21028 --- [educacao-gamificada] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-14T08:56:31.082-03:00  INFO 21028 --- [educacao-gamificada] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-14T08:56:31.273-03:00  INFO 21028 --- [educacao-gamificada] [           main] c.e.g.EducacaoGamificadaApplicationTests : Started EducacaoGamificadaApplicationTests in 0.522 seconds (process running for 12.922)
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.536 s -- in br.com.educacao.gamificada.EducacaoGamificadaApplicationTests
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 35, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ educacao-gamificada ---
+[INFO] Building jar: C:\Users\Gustavo\Downloads\educacao-gamificada-primeiros-commits\educacao-gamificada-primeiros-commits\projeto-git\target\educacao-gamificada-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:3.5.16:repackage (repackage) @ educacao-gamificada ---
+[INFO] Replacing main artifact C:\Users\Gustavo\Downloads\educacao-gamificada-primeiros-commits\educacao-gamificada-primeiros-commits\projeto-git\target\educacao-gamificada-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to C:\Users\Gustavo\Downloads\educacao-gamificada-primeiros-commits\educacao-gamificada-primeiros-commits\projeto-git\target\educacao-gamificada-0.0.1-SNAPSHOT.jar.original
+[INFO] 
+[INFO] --- jacoco:0.8.13:report (relatorio) @ educacao-gamificada ---
+[INFO] Loading execution data file C:\Users\Gustavo\Downloads\educacao-gamificada-primeiros-commits\educacao-gamificada-primeiros-commits\projeto-git\target\jacoco.exec
+[INFO] Analyzed bundle 'educacao-gamificada' with 13 classes
+[INFO] 
+[INFO] --- jacoco:0.8.13:check (cobertura-aplicacao) @ educacao-gamificada ---
+[INFO] Loading execution data file C:\Users\Gustavo\Downloads\educacao-gamificada-primeiros-commits\educacao-gamificada-primeiros-commits\projeto-git\target\jacoco.exec
+[INFO] Analyzed bundle 'educacao-gamificada' with 13 classes
+[INFO] All coverage checks have been met.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  18.499 s
+[INFO] Finished at: 2026-09-14T08:56:32-03:00
+[INFO] ------------------------------------------------------------------------

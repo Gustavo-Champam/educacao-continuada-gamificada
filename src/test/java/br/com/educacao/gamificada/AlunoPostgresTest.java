@@ -39,6 +39,13 @@ class AlunoPostgresTest {
         var salvo = servico.buscar(aluno.id());
         assertEquals(Plano.PREMIUM, salvo.plano());
         assertEquals(12, salvo.cursosConcluidos());
+        assertEquals(1, salvo.vouchers());
+        assertEquals(3, salvo.moedas());
+        servico.concluirCurso(aluno.id(), new ConcluirCursoRequest("CURSO-13", 9.0));
+        persistencia.flush();
+        persistencia.clear();
+        assertEquals(1, servico.buscar(aluno.id()).vouchers());
+        assertEquals(3, servico.buscar(aluno.id()).moedas());
         // A transação do teste é revertida ao terminar.
     }
 }

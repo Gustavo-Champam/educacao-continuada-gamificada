@@ -151,7 +151,8 @@ class AlunoControllerTest {
     void deveRejeitarNomeVazio() throws Exception {
         api.perform(post("/api/alunos").contentType(MediaType.APPLICATION_JSON)
                         .content("{\"nome\":\" \"}"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.detail", org.hamcrest.Matchers.containsString("nome")));
         assertEquals(0, alunos.count());
     }
 
