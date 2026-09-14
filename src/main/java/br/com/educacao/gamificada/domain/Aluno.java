@@ -11,4 +11,12 @@ public class Aluno {
         this.plano = plano;
         this.cursosConcluidos = cursosConcluidos;
     }
+
+    public boolean concluirCurso(double media) {
+        return false;
+    }
+
+    public String getNome() { return nome; }
+    public Plano getPlano() { return plano; }
+    public int getCursosConcluidos() { return cursosConcluidos; }
 }
