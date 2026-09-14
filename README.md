@@ -149,7 +149,7 @@ Sem `TESTAR_POSTGRES=true`, o teste PostgreSQL é explicitamente ignorado. A exe
 
 [GitHub Actions](https://github.com/Gustavo-Champam/educacao-continuada-gamificada/actions) verifica o backend com H2/PostgreSQL, o build Vue e o Compose completo. Os artefatos incluem testes, cobertura, logs dos containers, consultas SQL e capturas da interface.
 
-O Docker Desktop deste computador apresentou erro interno no gerenciador de inferência antes de iniciar o engine. A execução de containers deve ser comprovada pelos resultados reais do job Docker, não pelo arquivo Compose isoladamente. Consulte o [índice de evidências](evidencias/README.md) para o estado verificado.
+O Docker Desktop deste computador apresentou erro interno no gerenciador de inferência antes de iniciar o engine. **Compose validado com sucesso no GitHub Actions:** [execução completa](https://github.com/Gustavo-Champam/educacao-continuada-gamificada/actions/runs/34880100641). Os jobs backend, frontend e docker passaram, incluindo pgAdmin e teste de navegador. Os resultados foram copiados para `evidencias/execucao/docker*`. Consulte o [índice de evidências](evidencias/README.md) para o estado verificado.
 
 ## Entrega no Canvas
 

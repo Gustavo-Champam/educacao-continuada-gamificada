@@ -1,0 +1,46 @@
+{
+  "executadoEm": "2026-09-14T18:20:48.174091+00:00",
+  "url": "http://localhost:8080",
+  "resultado": "PASS",
+  "notaInsuficiente": {
+    "aluno": {
+      "id": 1,
+      "nome": "Demonstracao ATDD",
+      "plano": "BASICO",
+      "cursosConcluidos": 11,
+      "vouchers": 0,
+      "moedas": 0
+    },
+    "cursoContabilizado": false,
+    "promovidoAgora": false
+  },
+  "promocao": {
+    "aluno": {
+      "id": 1,
+      "nome": "Demonstracao ATDD",
+      "plano": "PREMIUM",
+      "cursosConcluidos": 12,
+      "vouchers": 1,
+      "moedas": 3
+    },
+    "cursoContabilizado": true,
+    "promovidoAgora": true
+  },
+  "consultaFinal": {
+    "id": 1,
+    "nome": "Demonstracao ATDD",
+    "plano": "PREMIUM",
+    "cursosConcluidos": 13,
+    "vouchers": 1,
+    "moedas": 3
+  },
+  "historico": [
+    {
+      "alunoId": 1,
+      "vouchers": 1,
+      "moedas": 3,
+      "origem": "PROMOCAO_PREMIUM",
+      "registradoEm": "2026-09-14T18:20:47.753456Z"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+ id | cursos_concluidos | moedas |       nome        |  plano  | vouchers 
+----+-------------------+--------+-------------------+---------+----------
+  1 |                13 |      3 | Demonstracao ATDD | PREMIUM |        1
+(1 row)
+
+ aluno_id | moedas |      origem      |         registrado_em         | vouchers 
+----------+--------+------------------+-------------------------------+----------
+        1 |      3 | PROMOCAO_PREMIUM | 2026-09-14 18:20:47.753456+00 |        1
+(1 row)
+

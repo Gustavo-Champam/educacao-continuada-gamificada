@@ -1,0 +1,6 @@
+NAME                                        IMAGE                                     COMMAND                  SERVICE    CREATED          STATUS                    PORTS
+educacao-continuada-gamificada-api-1        educacao-gamificada-api:local             "java -jar app.jar"      api        53 seconds ago   Up 46 seconds             127.0.0.1:8080->8080/tcp
+educacao-continuada-gamificada-frontend-1   educacao-continuada-gamificada-frontend   "/docker-entrypoint.…"   frontend   53 seconds ago   Up 46 seconds             127.0.0.1:5173->80/tcp
+educacao-continuada-gamificada-h2-1         educacao-gamificada-api:local             "java -jar app.jar"      h2         53 seconds ago   Up 52 seconds             127.0.0.1:8081->8080/tcp
+educacao-continuada-gamificada-pgadmin-1    dpage/pgadmin4:9                          "/entrypoint.sh"         pgadmin    53 seconds ago   Up 46 seconds             443/tcp, 127.0.0.1:5050->80/tcp
+educacao-continuada-gamificada-postgres-1   postgres:17-alpine                        "docker-entrypoint.s…"   postgres   53 seconds ago   Up 52 seconds (healthy)   127.0.0.1:5432->5432/tcp

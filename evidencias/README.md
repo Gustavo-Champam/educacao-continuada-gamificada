@@ -34,7 +34,7 @@ Execução local: **14/09/2026**, Java 17, Maven, JUnit 5, PostgreSQL 18 dedicad
 
 O teste PostgreSQL executou em banco real, confirmando o produto JDBC e a persistência da promoção e dos saldos após limpar o contexto JPA. Consulte `AlunoPostgresTest` e o log BLUE.
 
-A verificação Docker é realizada pelo job `docker` em [GitHub Actions](https://github.com/Gustavo-Champam/educacao-continuada-gamificada/actions). O artefato `docker-e-interface` contém logs, lista dos containers, consultas PostgreSQL, aceite HTTP de H2/PostgreSQL e capturas de navegador. Consulte o resultado do job antes de afirmar que o Compose foi validado.
+A verificação Docker é realizada pelo job `docker` em [GitHub Actions](https://github.com/Gustavo-Champam/educacao-continuada-gamificada/actions). O artefato `docker-e-interface` contém logs, lista dos containers, consultas PostgreSQL, aceite HTTP de H2/PostgreSQL e capturas de navegador. **Resultado confirmado: SUCCESS** na [execução 34880100641](https://github.com/Gustavo-Champam/educacao-continuada-gamificada/actions/runs/34880100641), código `29a20e7`. Todos os três jobs passaram.
 
 No computador local, Docker Desktop falhou antes de iniciar o engine com `initializing Inference manager ... socket: Foi usado um endereço incompatível com o protocolo solicitado`. Os testes locais de PostgreSQL não são apresentados como execução local em container.
 
@@ -43,3 +43,17 @@ No computador local, Docker Desktop falhou antes de iniciar o engine com `initia
 Para a comprovação específica na IDE, abrir o projeto no IntelliJ Ultimate, executar os testes históricos indicados no README e capturar o resultado do BLUE usando Run with Coverage. Os logs Maven/JUnit comprovam os resultados automatizados, mas não comprovam uso da IDE.
 
 O link do repositório deve ser enviado pelo integrante no Canvas. Não houve postagem automática.
+
+
+## Comprovantes Docker concluídos
+
+- [Containers em execução](execucao/docker-ps.txt): API, Vue, PostgreSQL, pgAdmin e H2.
+- [Aceite PostgreSQL em container](execucao/docker-postgres.json).
+- [Aceite H2 em container](execucao/docker-h2.json).
+- [Consultas SQL no PostgreSQL em container](execucao/docker-postgres-sql.txt).
+- [Logs dos serviços](execucao/docker.log).
+- [Relatório de navegador contra os containers](execucao/docker-playwright.html).
+
+![Vue conectado ao Spring e PostgreSQL em Docker](execucao/docker-vue-desktop.png)
+
+O endpoint `/misc/ping` do pgAdmin respondeu com sucesso no job. A evidência comprova execução do serviço, sem simular uma captura de login na ferramenta.
