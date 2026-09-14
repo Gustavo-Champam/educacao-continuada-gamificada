@@ -1,6 +1,6 @@
 # US01 — Progressão do Aluno Básico
 
-**Responsável pela US e BDD: identificar entre Gustavo Champam e Gustavo Camargo.**
+**Responsável pela US01 e pelos BDD01 a BDD07: Gustavo Camargo.**
 
 Fonte: aba `pb`, linha 5 de `Template_ATDD.xlsx`, README original e escopo confirmado pelo responsável: sua parte termina na alteração de Básico para Premium.
 
