@@ -2,7 +2,10 @@ package br.com.educacao.gamificada.domain;
 
 public class Aluno {
 
-    private String nome;
+    private static final double MEDIA_MINIMA = 7.0;
+    private static final int CURSOS_PARA_PREMIUM = 12;
+
+    private final String nome;
     private Plano plano;
     private int cursosConcluidos;
 
@@ -22,16 +25,27 @@ public class Aluno {
     }
 
     public boolean concluirCurso(double media) {
-        if (!Double.isFinite(media) || media < 0 || media > 10) {
-            throw new IllegalArgumentException("A média deve estar entre 0 e 10.");
+        validarMedia(media);
+        if (media < MEDIA_MINIMA) {
+            return false;
         }
-        if (media < 7.0) return false;
+
         cursosConcluidos++;
-        if (plano == Plano.BASICO && cursosConcluidos >= 12) {
+        if (podeSerPromovido()) {
             plano = Plano.PREMIUM;
             return true;
         }
         return false;
+    }
+
+    private static void validarMedia(double media) {
+        if (!Double.isFinite(media) || media < 0 || media > 10) {
+            throw new IllegalArgumentException("A média deve estar entre 0 e 10.");
+        }
+    }
+
+    private boolean podeSerPromovido() {
+        return plano == Plano.BASICO && cursosConcluidos >= CURSOS_PARA_PREMIUM;
     }
 
     public String getNome() { return nome; }
