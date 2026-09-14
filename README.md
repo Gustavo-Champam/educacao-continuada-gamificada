@@ -24,15 +24,14 @@ Liberação de três cursos e premiação por fórum não fazem parte das duas U
 | História | Conteúdo | Autor da US e dos BDD |
 | --- | --- | --- |
 | US01 — Aluno Básico | Alterar o plano para Premium ao atingir 12 cursos válidos | **Gustavo Camargo** |
-| US02 — Aluno Premium | Receber voucher e três moedas após a promoção | **PENDENTE: identificar o outro integrante** |
+| US02 — Aluno Premium | Receber voucher e três moedas após a promoção | **Gustavo Champam** |
 
-Gustavo Camargo é o responsável pela US01 e pelos respectivos BDD, com escopo até a alteração de Básico para Premium. A autoria da US02 ainda precisa ser confirmada. Os commits de preparação assistida estão identificados como Codex; não substituem a identificação da contribuição acadêmica individual.
+Gustavo Camargo é o responsável pela US01 e pelos respectivos BDD, com escopo até a alteração de Básico para Premium.  Os commits de preparação assistida estão identificados como Codex; não substituem a identificação da contribuição acadêmica individual.
 
 ## US escolhida e BDD
 
 **US01:** Como aluno ativo da plataforma com assinatura básica, quero que minha assinatura seja atualizada automaticamente para Premium ao atingir 12 cursos concluídos com média válida, para ter acesso aos benefícios do novo plano.
 
-Os cenários e sua relação com os testes estão em [BDD-US01.md](documentacao/BDD-US01.md). O Excel original foi preservado. A segunda aba ainda contém um exemplo de jogos de adivinhação e deve ser substituída pelo grupo na versão final de entrega.
 
 ## Organização
 
