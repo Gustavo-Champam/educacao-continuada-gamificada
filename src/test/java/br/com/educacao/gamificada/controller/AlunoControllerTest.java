@@ -168,6 +168,27 @@ class AlunoControllerTest {
                 .andExpect(jsonPath("$.paths['/api/alunos']").exists());
     }
 
+    @Test
+    void bddUS02DevePersistirUmaRecompensaMesmoAposNovoCursoEDuplicata() throws Exception {
+        // Dado um aluno Basico com onze cursos validos (US02 - Gustavo Champam).
+        long id = criarAluno();
+        api.perform(get("/api/alunos/{id}", id))
+                .andExpect(jsonPath("$.vouchers").value(0))
+                .andExpect(jsonPath("$.moedas").value(0));
+        concluirOnzeCursos(id);
+        // Quando conclui o decimo segundo curso e posteriormente outro curso.
+        concluir(id, "CURSO-12", 7.0).andExpect(status().isOk())
+                .andExpect(jsonPath("$.aluno.vouchers").value(1))
+                .andExpect(jsonPath("$.aluno.moedas").value(3));
+        concluir(id, "CURSO-13", 9.0).andExpect(status().isOk());
+        concluir(id, "CURSO-12", 7.0).andExpect(status().isConflict());
+        // Entao a consulta em outra requisicao mantem apenas um voucher e tres moedas.
+        api.perform(get("/api/alunos/{id}", id))
+                .andExpect(jsonPath("$.vouchers").value(1))
+                .andExpect(jsonPath("$.moedas").value(3))
+                .andExpect(jsonPath("$.cursosConcluidos").value(13));
+    }
+
     private long criarAluno() throws Exception {
         var resposta = api.perform(post("/api/alunos").contentType(MediaType.APPLICATION_JSON)
                         .content("{\"nome\":\"Gustavo\"}"))

@@ -32,4 +32,24 @@ public class AlunoPremiumTest {
         assertEquals(1, aluno.getVouchers());
         assertEquals(3, aluno.getMoedas());
     }
+    @Test
+    void deveConcederRecompensasNaPromocaoEManterAposOutroCurso() {
+        Aluno aluno = new Aluno("Gustavo", Plano.BASICO, 11);
+        aluno.concluirCurso(7.0);
+        assertEquals(1, aluno.getVouchers());
+        assertEquals(3, aluno.getMoedas());
+        aluno.concluirCurso(9.0);
+        aluno.concederRecompensasPremium();
+        assertEquals(1, aluno.getVouchers());
+        assertEquals(3, aluno.getMoedas());
+    }
+
+    @Test
+    void basicoNaoRecebeRecompensasNemComSolicitacaoDireta() {
+        Aluno aluno = new Aluno("Gustavo", Plano.BASICO, 11);
+        aluno.concederRecompensasPremium();
+        aluno.concluirCurso(6.99);
+        assertEquals(0, aluno.getVouchers());
+        assertEquals(0, aluno.getMoedas());
+    }
 }
