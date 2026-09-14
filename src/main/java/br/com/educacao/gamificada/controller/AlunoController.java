@@ -16,8 +16,16 @@ import java.util.List;
 @Tag(name = "Alunos", description = "US01 — Progressão de Básico para Premium")
 public class AlunoController {
     private final AlunoService servico;
+    private final br.com.educacao.gamificada.service.RecompensaService recompensas;
 
-    public AlunoController(AlunoService servico) { this.servico = servico; }
+    public AlunoController(AlunoService servico, br.com.educacao.gamificada.service.RecompensaService recompensas) {
+        this.servico = servico;
+        this.recompensas = recompensas;
+    }
+
+    @GetMapping("/{id}/recompensas")
+    @Operation(summary = "Consultar histórico dos prêmios recebidos na promoção")
+    public List<RecompensaResponse> historico(@PathVariable Long id) { return recompensas.historico(id); }
 
     @PostMapping
     @Operation(summary = "Cadastrar aluno no plano Básico, com zero cursos")

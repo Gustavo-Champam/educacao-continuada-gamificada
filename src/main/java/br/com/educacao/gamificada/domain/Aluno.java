@@ -15,13 +15,13 @@ public class Aluno {
 
     public Aluno(String nome, Plano plano, int cursosConcluidos) {
         if (nome == null || nome.isBlank()) {
-            throw new IllegalArgumentException("O nome Ã© obrigatÃ³rio.");
+            throw new IllegalArgumentException("O nome é obrigatório.");
         }
         if (plano == null) {
-            throw new IllegalArgumentException("O plano Ã© obrigatÃ³rio.");
+            throw new IllegalArgumentException("O plano é obrigatório.");
         }
         if (cursosConcluidos < 0) {
-            throw new IllegalArgumentException("A quantidade de cursos nÃ£o pode ser negativa.");
+            throw new IllegalArgumentException("A quantidade de cursos não pode ser negativa.");
         }
         this.nome = nome;
         this.plano = plano;
@@ -46,7 +46,7 @@ public class Aluno {
 
     private static void validarMedia(double media) {
         if (!Double.isFinite(media) || media < 0 || media > 10) {
-            throw new IllegalArgumentException("A mÃ©dia deve estar entre 0 e 10.");
+            throw new IllegalArgumentException("A média deve estar entre 0 e 10.");
         }
     }
 

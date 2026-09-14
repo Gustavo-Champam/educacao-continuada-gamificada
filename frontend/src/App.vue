@@ -1,7 +1,8 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 
 const alunos = ref([]);
+const historicos = ref({});
 const alunoId = ref('');
 const nome = ref('');
 const codigoCurso = ref('');
@@ -12,6 +13,13 @@ const mensagem = ref('');
 const alunoSelecionado = computed(() => alunos.value.find(aluno => aluno.id === Number(alunoId.value)));
 const cursosRestantes = computed(() => Math.max(0, 12 - (alunoSelecionado.value?.cursosConcluidos ?? 0)));
 const progresso = computed(() => Math.min(100, (alunoSelecionado.value?.cursosConcluidos ?? 0) / 12 * 100));
+
+async function carregarHistorico(id) {
+  historicos.value[id] = await requisitar(`/alunos/${id}/recompensas`);
+}
+watch(alunoId, id => {
+  if (id) carregarHistorico(id).catch(falha => { if (alunoId.value === id) erro.value = falha.message; });
+});
 
 async function requisitar(caminho, corpo) {
   const resposta = await fetch(`/api${caminho}`, corpo === undefined ? {} : {
@@ -63,7 +71,8 @@ async function concluirCurso() {
       media: Number(media.value),
     });
     alunos.value = alunos.value.map(aluno => aluno.id === idAtual ? resultado.aluno : aluno);
-    if (resultado.promovidoAgora) mensagem.value = '12 cursos válidos concluídos. O aluno agora é Premium!';
+    await carregarHistorico(idAtual);
+    if (resultado.promovidoAgora) mensagem.value = '12 cursos válidos concluídos. O aluno agora é Premium! Recebeu 1 voucher e 3 moedas.';
     else if (resultado.cursoContabilizado) mensagem.value = 'Curso contabilizado. A progressão do aluno foi atualizada.';
     else mensagem.value = 'Média inferior a 7,0: o curso não foi contabilizado para a progressão.';
     if (resultado.cursoContabilizado) {
@@ -129,6 +138,22 @@ onMounted(carregarAlunos);
           <p class="legenda">{{ alunoSelecionado.plano === 'PREMIUM' ? 'Meta alcançada. Status atualizado para Premium.' : `Faltam ${cursosRestantes} cursos válidos para o plano Premium.` }}</p>
 
           <div class="divisor"></div>
+          <section aria-labelledby="titulo-carteira" class="carteira">
+            <h3 id="titulo-carteira">Carteira de recompensas</h3>
+            <p class="ajuda">{{ alunoSelecionado.plano === 'PREMIUM' ? 'Carteira habilitada. Prêmios recebidos pela sua evolução.' : 'Conquiste o plano Premium para habilitar sua carteira.' }}</p>
+            <div class="premios">
+              <div><strong aria-label="Vouchers recebidos">{{ alunoSelecionado.vouchers }}</strong><span>voucher de projeto real</span></div>
+              <div><strong aria-label="Moedas recebidas">{{ alunoSelecionado.moedas }}</strong><span>moedas virtuais</span></div>
+            </div>
+            <ul v-if="historicos[alunoSelecionado.id]?.length" class="historico">
+              <li v-for="registro in historicos[alunoSelecionado.id]" :key="registro.alunoId">
+                <strong>Promoção ao Premium</strong>
+                <span>+{{ registro.vouchers }} voucher · +{{ registro.moedas }} moedas</span>
+                <time :datetime="registro.registradoEm">{{ new Date(registro.registradoEm).toLocaleString('pt-BR') }}</time>
+              </li>
+            </ul>
+          </section>
+          <div class="divisor"></div>
           <h3>Registrar conclusão</h3>
           <p class="ajuda">Informe o código do curso concluído e a média final. Cada curso conta uma única vez por aluno.</p>
           <form @submit.prevent="concluirCurso">
@@ -148,6 +173,6 @@ onMounted(carregarAlunos);
       </div>
       <p class="nota">Somente cursos com média igual ou superior a 7,0 entram na contagem para a promoção.</p>
     </main>
-    <footer>Educação Continuada Gamificada · US01</footer>
+    <footer>Educação Continuada Gamificada · US01 e US02</footer>
   </div>
 </template>

@@ -15,13 +15,13 @@ public class Aluno {
 
 <span class="fc" id="L16">    public Aluno(String nome, Plano plano, int cursosConcluidos) {</span>
 <span class="fc bfc" id="L17" title="All 4 branches covered.">        if (nome == null || nome.isBlank()) {</span>
-<span class="fc" id="L18">            throw new IllegalArgumentException(&quot;O nome Ã© obrigatÃ³rio.&quot;);</span>
+<span class="fc" id="L18">            throw new IllegalArgumentException(&quot;O nome é obrigatório.&quot;);</span>
         }
 <span class="fc bfc" id="L20" title="All 2 branches covered.">        if (plano == null) {</span>
-<span class="fc" id="L21">            throw new IllegalArgumentException(&quot;O plano Ã© obrigatÃ³rio.&quot;);</span>
+<span class="fc" id="L21">            throw new IllegalArgumentException(&quot;O plano é obrigatório.&quot;);</span>
         }
 <span class="fc bfc" id="L23" title="All 2 branches covered.">        if (cursosConcluidos &lt; 0) {</span>
-<span class="fc" id="L24">            throw new IllegalArgumentException(&quot;A quantidade de cursos nÃ£o pode ser negativa.&quot;);</span>
+<span class="fc" id="L24">            throw new IllegalArgumentException(&quot;A quantidade de cursos não pode ser negativa.&quot;);</span>
         }
 <span class="fc" id="L26">        this.nome = nome;</span>
 <span class="fc" id="L27">        this.plano = plano;</span>
@@ -46,7 +46,7 @@ public class Aluno {
 
     private static void validarMedia(double media) {
 <span class="fc bfc" id="L48" title="All 6 branches covered.">        if (!Double.isFinite(media) || media &lt; 0 || media &gt; 10) {</span>
-<span class="fc" id="L49">            throw new IllegalArgumentException(&quot;A mÃ©dia deve estar entre 0 e 10.&quot;);</span>
+<span class="fc" id="L49">            throw new IllegalArgumentException(&quot;A média deve estar entre 0 e 10.&quot;);</span>
         }
 <span class="fc" id="L51">    }</span>
 

@@ -16,6 +16,7 @@ services:
       retries: 12
 
   api:
+    image: educacao-gamificada-api:local
     build: .
     environment:
       SPRING_PROFILES_ACTIVE: postgres
@@ -38,15 +39,25 @@ services:
   pgadmin:
     image: dpage/pgadmin4:9
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@educacao.local}
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@educacao.com}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin_local}
     ports:
       - "127.0.0.1:5050:80"
     volumes:
       - pgadmin_dados:/var/lib/pgadmin
+      - ./docker/pgadmin-servers.json:/pgadmin4/servers.json:ro
     depends_on:
       postgres:
         condition: service_healthy
+
+  h2:
+    profiles: ["demonstracao"]
+    image: educacao-gamificada-api:local
+    build: .
+    environment:
+      SPRING_PROFILES_ACTIVE: h2
+    ports:
+      - "127.0.0.1:8081:8080"
 
 volumes:
   postgres_dados:

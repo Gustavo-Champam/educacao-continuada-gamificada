@@ -16,28 +16,36 @@ import java.util.List;
 @Tag(name = &quot;Alunos&quot;, description = &quot;US01 — Progressão de Básico para Premium&quot;)
 public class AlunoController {
     private final AlunoService servico;
+    private final br.com.educacao.gamificada.service.RecompensaService recompensas;
 
-<span class="fc" id="L20">    public AlunoController(AlunoService servico) { this.servico = servico; }</span>
+<span class="fc" id="L21">    public AlunoController(AlunoService servico, br.com.educacao.gamificada.service.RecompensaService recompensas) {</span>
+<span class="fc" id="L22">        this.servico = servico;</span>
+<span class="fc" id="L23">        this.recompensas = recompensas;</span>
+<span class="fc" id="L24">    }</span>
+
+    @GetMapping(&quot;/{id}/recompensas&quot;)
+    @Operation(summary = &quot;Consultar histórico dos prêmios recebidos na promoção&quot;)
+<span class="fc" id="L28">    public List&lt;RecompensaResponse&gt; historico(@PathVariable Long id) { return recompensas.historico(id); }</span>
 
     @PostMapping
     @Operation(summary = &quot;Cadastrar aluno no plano Básico, com zero cursos&quot;)
     public ResponseEntity&lt;AlunoResponse&gt; criar(@Valid @RequestBody CriarAlunoRequest pedido) {
-<span class="fc" id="L25">        var aluno = servico.criar(pedido);</span>
-<span class="fc" id="L26">        return ResponseEntity.created(URI.create(&quot;/api/alunos/&quot; + aluno.id())).body(aluno);</span>
+<span class="fc" id="L33">        var aluno = servico.criar(pedido);</span>
+<span class="fc" id="L34">        return ResponseEntity.created(URI.create(&quot;/api/alunos/&quot; + aluno.id())).body(aluno);</span>
     }
 
     @GetMapping
     @Operation(summary = &quot;Listar alunos e seus planos&quot;)
-<span class="fc" id="L31">    public List&lt;AlunoResponse&gt; listar() { return servico.listar(); }</span>
+<span class="fc" id="L39">    public List&lt;AlunoResponse&gt; listar() { return servico.listar(); }</span>
 
     @GetMapping(&quot;/{id}&quot;)
     @Operation(summary = &quot;Consultar a progressão de um aluno&quot;)
-<span class="fc" id="L35">    public AlunoResponse buscar(@PathVariable Long id) { return servico.buscar(id); }</span>
+<span class="fc" id="L43">    public AlunoResponse buscar(@PathVariable Long id) { return servico.buscar(id); }</span>
 
     @PostMapping(&quot;/{id}/conclusoes&quot;)
     @Operation(summary = &quot;Registrar curso concluído e avaliar a promoção para Premium&quot;)
     public ConclusaoResponse concluir(@PathVariable Long id, @Valid @RequestBody ConcluirCursoRequest pedido) {
-<span class="fc" id="L40">        return servico.concluirCurso(id, pedido);</span>
+<span class="fc" id="L48">        return servico.concluirCurso(id, pedido);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

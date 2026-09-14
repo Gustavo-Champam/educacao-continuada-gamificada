@@ -1,4 +1,4 @@
-name: Verificar US01
+name: Verificar projeto ATDD
 on:
   push:
   pull_request:
@@ -48,7 +48,7 @@ jobs:
           node-version: '22'
       - name: Instalar dependências
         working-directory: frontend
-        run: npm install
+        run: npm ci
       - name: Compilar Vue
         working-directory: frontend
         run: npm run build
@@ -56,3 +56,43 @@ jobs:
         with:
           name: frontend-compilado
           path: frontend/dist/
+
+  docker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Subir Spring Vue PostgreSQL pgAdmin e H2 em containers
+        run: docker compose --profile demonstracao up --build -d
+      - name: Aceite HTTP PostgreSQL e H2
+        run: |
+          python3 scripts/verificar-http.py http://localhost:8080 evidencias/execucao/docker-postgres.json
+          python3 scripts/verificar-http.py http://localhost:8081 evidencias/execucao/docker-h2.json
+          curl --fail --retry 12 --retry-connrefused --retry-delay 5 http://localhost:5050/misc/ping
+          docker compose ps -a > evidencias/execucao/docker-ps.txt
+          docker compose exec -T postgres psql -U educacao -d educacao -c 'SELECT * FROM alunos; SELECT * FROM recompensas_premium;' > evidencias/execucao/docker-postgres-sql.txt
+      - name: Testar interface Vue com navegador real
+        working-directory: frontend
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+          npm run test:e2e
+      - name: Guardar logs
+        if: always()
+        run: |
+          mkdir -p evidencias/execucao
+          docker compose --profile demonstracao logs --no-color > evidencias/execucao/docker.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: docker-e-interface
+          path: |
+            evidencias/execucao/
+            frontend/playwright-report/
+            frontend/test-results/
+      - name: Encerrar containers
+        if: always()
+        run: docker compose --profile demonstracao down

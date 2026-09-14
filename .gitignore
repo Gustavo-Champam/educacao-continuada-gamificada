@@ -23,3 +23,6 @@ Thumbs.db
 node_modules/
 dist/
 *.bundle
+
+playwright-report/
+test-results/

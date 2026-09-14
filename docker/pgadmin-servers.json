@@ -1,0 +1,1 @@
+{"Servers":{"1":{"Name":"Educacao Gamificada","Group":"Projeto","Host":"postgres","Port":5432,"MaintenanceDB":"educacao","Username":"educacao","SSLMode":"prefer"}}}

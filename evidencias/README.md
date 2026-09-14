@@ -1,33 +1,41 @@
-# Evidências da US01
+# Evidências da entrega
 
-## Executado nesta preparação
+Execução local: **14/09/2026**, Java 17, Maven, JUnit 5, PostgreSQL 18 dedicado e H2. Capturas de navegador são reais. Nenhuma captura de IntelliJ ou Docker Desktop foi simulada.
 
-- Compilação do domínio e de `scripts/VerificacaoDominio.java` pelo módulo compilador Java 17.
-- Reexecução RED `45be164`: **12 falhas e 3 sucessos**.
-- GREEN: **15 sucessos e zero falhas**.
-- BLUE: **15 sucessos e zero falhas**.
-- Análise de sintaxe dos 19 arquivos Java: zero erros, sem resolver dependências Spring/JUnit.
-- Sintaxe do JavaScript da tela Vue, configuração Vite, POM XML, package.json e YAML conferida. Isso não substitui o build ou a execução da interface.
+## Testes e cobertura
 
-Os logs estão em `red`, `green` e `blue`. O verificador auxiliar **não substitui JUnit, JaCoCo ou capturas do IntelliJ Ultimate**.
+- [RED: três falhas JUnit US02](red/us02-junit.log).
+- [RED: aceite HTTP e idempotência](red/us02-aceitacao.log).
+- [RED: histórico da carteira ausente](red/historico-carteira.log).
+- [GREEN: testes aprovados](green/us02-junit.log).
+- [BLUE: 37 testes aprovados, nenhum ignorado](blue/verificacao-completa.log).
+- [Relatório JaCoCo completo](blue/cobertura/index.html) e [CSV](blue/cobertura/jacoco.csv).
+- [Build Vue](blue/vue-build.log) e [teste de navegador](blue/vue-e2e.log).
 
-As primeiras tentativas falharam porque `javac` não estava disponível. Depois foi utilizado `java -m jdk.compiler/com.sun.tools.javac.Main`, e RED foi recuperado do commit para reexecução. Os logs finais mostram os resultados de asserções; o histórico preserva as tentativas anteriores.
+![Cobertura JaCoCo](blue/cobertura.png)
 
-## Evidências acadêmicas a produzir
+## Aplicação em execução
 
-| Requisito | Como produzir | Situação |
-| --- | --- | --- |
-| RED JUnit | Executar AlunoTest no commit RED pelo IntelliJ; capturar asserções falhando | Pendente |
-| GREEN JUnit | Executar AlunoTest no commit GREEN; capturar todos passando | Pendente |
-| GREEN cobertura | Run with Coverage na versão GREEN | Pendente |
-| BLUE JUnit e cobertura | Maven clean verify e Run with Coverage no IntelliJ | Pendente |
-| 100% sem vermelho/amarelo | Conferir linhas e ramos no relatório real, conforme escopo da professora | Não medido |
-| H2 | Rodar perfil H2, promover aluno e consultar alunos no Console | Pendente |
-| PostgreSQL/pgAdmin | Rodar Compose e consultar tabelas no pgAdmin | Pendente |
-| Docker | Capturar docker compose ps e logs da aplicação iniciada | Pendente |
-| Swagger | Mostrar endpoints e resposta da promoção | Pendente |
-| Vue | Mostrar Básico com 11 cursos e Premium após o 12º | Pendente |
+![Vue desktop](execucao/vue-desktop.png)
 
-Maven e Docker não estão instalados no ambiente utilizado; o acesso ao Maven Central falhou. As dependências Vue não estão disponíveis. Portanto não foi possível executar Spring/JUnit, JaCoCo, build Vue, bancos ou containers.
+[Visualização móvel](execucao/vue-mobile.png).
 
-O workflow GitHub foi preparado para testes com H2 e PostgreSQL real, cobertura e build Vue. Apenas depois de executado seus relatórios poderão ser usados como evidências adicionais. Ele não substitui a demonstração no IntelliJ exigida pela professora.
+![Swagger](execucao/swagger.png)
+
+![H2 com consultas SQL](execucao/h2-console.png)
+
+[Respostas HTTP e histórico com H2](execucao/h2-http.json).
+
+## PostgreSQL e Docker
+
+O teste PostgreSQL executou em banco real, confirmando o produto JDBC e a persistência da promoção e dos saldos após limpar o contexto JPA. Consulte `AlunoPostgresTest` e o log BLUE.
+
+A verificação Docker é realizada pelo job `docker` em [GitHub Actions](https://github.com/Gustavo-Champam/educacao-continuada-gamificada/actions). O artefato `docker-e-interface` contém logs, lista dos containers, consultas PostgreSQL, aceite HTTP de H2/PostgreSQL e capturas de navegador. Consulte o resultado do job antes de afirmar que o Compose foi validado.
+
+No computador local, Docker Desktop falhou antes de iniciar o engine com `initializing Inference manager ... socket: Foi usado um endereço incompatível com o protocolo solicitado`. Os testes locais de PostgreSQL não são apresentados como execução local em container.
+
+## IntelliJ Ultimate e Canvas
+
+Para a comprovação específica na IDE, abrir o projeto no IntelliJ Ultimate, executar os testes históricos indicados no README e capturar o resultado do BLUE usando Run with Coverage. Os logs Maven/JUnit comprovam os resultados automatizados, mas não comprovam uso da IDE.
+
+O link do repositório deve ser enviado pelo integrante no Canvas. Não houve postagem automática.

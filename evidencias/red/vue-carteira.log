@@ -1,0 +1,47 @@
+
+Running 1 test using 1 worker
+
+(node:6504) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 tests\aluno.spec.js:10:1 › cadastro, nota insuficiente, promoção, carteira e persistência na tela (6.5s)
+
+
+  1) tests\aluno.spec.js:10:1 › cadastro, nota insuficiente, promoção, carteira e persistência na tela 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator: getByLabel('Vouchers recebidos')
+    Expected: "1"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveText" getByLabel('Vouchers recebidos') with timeout 5000ms
+      - waiting for getByLabel('Vouchers recebidos')
+
+
+      26 |   await tela.concluir('E2E-12',7);
+      27 |   await expect(page.getByRole('status')).toContainText('Premium');
+    > 28 |   await expect(page.getByLabel('Vouchers recebidos')).toHaveText('1');
+         |                                                       ^
+      29 |   await expect(page.getByLabel('Moedas recebidas')).toHaveText('3');
+      30 |   await expect(page.getByText('Promoção ao Premium',{exact:true})).toBeVisible();
+      31 |   await tela.concluir('E2E-12',7);
+        at C:\Users\Gustavo\Downloads\educacao-gamificada-primeiros-commits\educacao-gamificada-primeiros-commits\projeto-git\frontend\tests\aluno.spec.js:28:55
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\aluno-cadastro-nota-insufi-7ddb6-eira-e-persistência-na-tela\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\aluno-cadastro-nota-insufi-7ddb6-eira-e-persistência-na-tela\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\aluno-cadastro-nota-insufi-7ddb6-eira-e-persistência-na-tela\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\aluno-cadastro-nota-insufi-7ddb6-eira-e-persistência-na-tela\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests\aluno.spec.js:10:1 › cadastro, nota insuficiente, promoção, carteira e persistência na tela 
