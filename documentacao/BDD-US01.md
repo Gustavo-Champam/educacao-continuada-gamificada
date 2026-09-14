@@ -21,7 +21,7 @@ A interpretação de que todos os cursos contabilizados precisam de média váli
 
 ## Cenários e rastreabilidade
 
-| ID | Dado / E | Quando | Então / E | Testes preparados |
+| ID | Dado / E | Quando | Então / E | Testes automatizados e executados |
 | --- | --- | --- | --- | --- |
 | BDD01 | Básico com 11 cursos válidos | Conclui outro com média 7,0 | Premium, 12 cursos e evento de promoção | `devePromoverAlunoAoConcluirDecimoSegundoCursoComNotaValida`; `devePersistirPromocaoNoDecimoSegundoCursoEEmitirUmEvento` |
 | BDD02 | Básico com 11 cursos válidos | Conclui outro com média 6,99 | Básico, 11 cursos, sem evento | `naoDeveContabilizarCursoNemPromoverAlunoComNotaInferiorASete`; `naoDeveContarNotaBaixaEDevePermitirNovaConclusaoDoMesmoCurso` |
@@ -57,6 +57,6 @@ Os cenários são implementados com JUnit 5. Cucumber é opcional e não foi adi
 
 ## Integração com a US02
 
-`AlunoPromovidoEvent(Long alunoId)` é interno ao Spring e publicado na transação de promoção. O consumidor futuro deve usar `@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)` para agir após a confirmação da transação. O evento não é uma fila durável nem notificação externa; entrega garantida entre sistemas exigiria mecanismo adicional.
+`AlunoPromovidoEvent(Long alunoId)` é interno ao Spring e publicado na transação de promoção. Na entrega integrada, `RecompensaService` recebe o evento com `@EventListener` e participa da mesma transação para registrar a origem dos prêmios atomicamente com a promoção. Um erro reverte toda a operação. A chave por aluno e o bloqueio de escrita impedem reprocessamento duplicado.
 
-Nenhuma carteira, moeda ou voucher é criado pela US01.
+A responsabilidade acadêmica da US01 continua sendo a progressão. A US02 complementa o fluxo com voucher, moedas e histórico. O evento é interno e síncrono, sem fila externa.
