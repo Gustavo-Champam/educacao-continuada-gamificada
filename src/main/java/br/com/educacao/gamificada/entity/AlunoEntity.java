@@ -21,6 +21,12 @@ public class AlunoEntity {
     @Column(name = "cursos_concluidos", nullable = false)
     private int cursosConcluidos;
 
+    @Column(nullable = false)
+    private int vouchers;
+
+    @Column(nullable = false)
+    private int moedas;
+
     protected AlunoEntity() { }
 
     public AlunoEntity(Aluno aluno) {
@@ -35,8 +41,12 @@ public class AlunoEntity {
     public void atualizarProgressao(Aluno aluno) {
         plano = aluno.getPlano();
         cursosConcluidos = aluno.getCursosConcluidos();
+        vouchers = aluno.getVouchers();
+        moedas = aluno.getMoedas();
     }
 
+    public int getVouchers() { return vouchers; }
+    public int getMoedas() { return moedas; }
     public Long getId() { return id; }
     public String getNome() { return nome; }
     public Plano getPlano() { return plano; }

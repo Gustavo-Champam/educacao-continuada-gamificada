@@ -8,20 +8,23 @@ public class Aluno {
     private final String nome;
     private Plano plano;
     private int cursosConcluidos;
+    private int vouchers;
+    private int moedas;
 
     public Aluno(String nome, Plano plano, int cursosConcluidos) {
         if (nome == null || nome.isBlank()) {
-            throw new IllegalArgumentException("O nome é obrigatório.");
+            throw new IllegalArgumentException("O nome Ã© obrigatÃ³rio.");
         }
         if (plano == null) {
-            throw new IllegalArgumentException("O plano é obrigatório.");
+            throw new IllegalArgumentException("O plano Ã© obrigatÃ³rio.");
         }
         if (cursosConcluidos < 0) {
-            throw new IllegalArgumentException("A quantidade de cursos não pode ser negativa.");
+            throw new IllegalArgumentException("A quantidade de cursos nÃ£o pode ser negativa.");
         }
         this.nome = nome;
         this.plano = plano;
         this.cursosConcluidos = cursosConcluidos;
+        concederRecompensasPremium();
     }
 
     public boolean concluirCurso(double media) {
@@ -33,6 +36,7 @@ public class Aluno {
         cursosConcluidos++;
         if (podeSerPromovido()) {
             plano = Plano.PREMIUM;
+            concederRecompensasPremium();
             return true;
         }
         return false;
@@ -40,7 +44,7 @@ public class Aluno {
 
     private static void validarMedia(double media) {
         if (!Double.isFinite(media) || media < 0 || media > 10) {
-            throw new IllegalArgumentException("A média deve estar entre 0 e 10.");
+            throw new IllegalArgumentException("A mÃ©dia deve estar entre 0 e 10.");
         }
     }
 
@@ -48,9 +52,14 @@ public class Aluno {
         return plano == Plano.BASICO && cursosConcluidos >= CURSOS_PARA_PREMIUM;
     }
 
-    public int getVouchers() { return 0; }
-    public int getMoedas() { return 0; }
-    public void concederRecompensasPremium() { }
+    public int getVouchers() { return vouchers; }
+    public int getMoedas() { return moedas; }
+    public void concederRecompensasPremium() {
+        if (plano == Plano.PREMIUM) {
+            vouchers = 1;
+            moedas = 3;
+        }
+    }
 
     public String getNome() { return nome; }
     public Plano getPlano() { return plano; }
