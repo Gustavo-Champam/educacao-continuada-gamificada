@@ -110,12 +110,12 @@ A transação de conclusão bloqueia o aluno para atualização, grava a aprova�
 
 | Etapa | Commit / arquivo | Resultado |
 | --- | --- | --- |
-| RED US01 | `45be164` e `evidencias/red/us01-junit.log` | JUnit reexecutado a partir do commit histórico; falhas esperadas |
-| GREEN US01 | `82e7c49` e `evidencias/green/us01-junit.log` | JUnit reexecutado: 12 testes aprovados |
-| BLUE US01 | `af3e96e` | Refatoração preservada |
-| RED US02 | `94d0807`, `evidencias/red/us02-junit.log` | 3 testes executados, 3 falhas de asserção |
-| RED integração US02 | `dca15de`, `evidencias/red/us02-aceitacao.log` | 20 testes, 5 falhas esperadas |
-| GREEN US02 | `a1c46c4`, `evidencias/green/us02-junit.log` | 33 testes aprovados; PostgreSQL ainda ignorado nessa etapa |
+| RED US01 | `2a76de7` e `evidencias/red/us01-junit.log` | JUnit reexecutado a partir do commit histórico; falhas esperadas |
+| GREEN US01 | `834faae` e `evidencias/green/us01-junit.log` | JUnit reexecutado: 12 testes aprovados |
+| BLUE US01 | `f83e7ba` | Refatoração preservada |
+| RED US02 | `e87b6d3`, `evidencias/red/us02-junit.log` | 3 testes executados, 3 falhas de asserção |
+| RED integração US02 | `5d98957`, `evidencias/red/us02-aceitacao.log` | 20 testes, 5 falhas esperadas |
+| GREEN US02 | `5af98ff`, `evidencias/green/us02-junit.log` | 33 testes aprovados; PostgreSQL ainda ignorado nessa etapa |
 | BLUE final | `evidencias/blue/verificacao-completa.log` | **37 testes, 0 falhas, 0 erros, 0 ignorados**, incluindo PostgreSQL |
 | Cobertura final | `evidencias/blue/cobertura/index.html` | **100% de instruções, linhas, ramos e métodos nas 16 classes Java medidas** |
 | Navegador | `evidencias/blue/vue-e2e.log` | Cadastro, promoção, carteira, duplicidade, recarga e tela móvel |
@@ -125,8 +125,8 @@ Os erros de compilação preliminares estão identificados separadamente em `us0
 Reproduzir RED e GREEN da US02 sem modificar o projeto atual:
 
 ```sh
-git worktree add ../educacao-red 94d0807
-git worktree add ../educacao-green a1c46c4
+git worktree add ../educacao-red e87b6d3
+git worktree add ../educacao-green 5af98ff
 mvn -f ../educacao-red/pom.xml -Dtest=AlunoPremiumTest test
 mvn -f ../educacao-green/pom.xml -Dtest=AlunoPremiumTest test
 ```
