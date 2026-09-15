@@ -346,11 +346,11 @@ Durante o desenvolvimento foram registradas evidências das diferentes etapas do
 | RED US01            | `2a76de7` / `evidencias/red/us01-junit.log`     | Testes falhando conforme esperado        |
 | GREEN US01          | `834faae` / `evidencias/green/us01-junit.log`   | 12 testes aprovados                      |
 | BLUE US01           | `f83e7ba`                                       | Refatoração mantendo os testes aprovados |
-| RED US02            | `e87b6d3` / `evidencias/red/us02-junit.log`     | 3 testes executados e 3 falhas           |
+| RED US02            | `e87b6d3` / [log](evidencias/red/us02-junit.log) / [IntelliJ](evidencias/red/us02-red-intellij.png) | 3 testes executados e 3 falhas esperadas |
 | RED integração US02 | `5d98957` / `evidencias/red/us02-aceitacao.log` | 20 testes, sendo 5 falhas esperadas      |
-| GREEN US02          | `5af98ff` / `evidencias/green/us02-junit.log`   | 33 testes aprovados                      |
-| BLUE final          | `evidencias/blue/verificacao-completa.log`      | 37 testes aprovados                      |
-| Cobertura           | `evidencias/blue/cobertura/index.html`          | 100% de cobertura nas classes analisadas |
+| GREEN US02          | `5af98ff` / [log](evidencias/green/us02-junit.log) / [IntelliJ](evidencias/green/us02-green.png) | Testes aprovados                         |
+| BLUE final          | [verificação completa](evidencias/blue/verificacao-completa.log) | 37 testes aprovados                      |
+| Cobertura           | [relatório JaCoCo](evidencias/blue/cobertura/index.html) / [captura](evidencias/blue/cobertura/us02-blue-cobertura-100.png) | 100% de instruções, branches, linhas, métodos e classes |
 | Front-end           | `evidencias/blue/vue-e2e.log`                   | Fluxos da interface testados             |
 
 Na verificação final foram executados:

@@ -1,6 +1,6 @@
 # Evidências da entrega
 
-Execução local: **14/09/2026**, Java 17, Maven, JUnit 5, PostgreSQL 18 dedicado e H2. Capturas de navegador são reais. Nenhuma captura de IntelliJ ou Docker Desktop foi simulada.
+Execução local: **14/09/2026**, Java 17, Maven, JUnit 5, PostgreSQL 18 dedicado e H2. As capturas do IntelliJ e do navegador registram execuções reais.
 > Observação: caminhos locais de máquina nos logs foram normalizados para caminhos relativos, mantendo o conteúdo técnico e tornando as evidências portáteis.
 
 ## Testes e cobertura
@@ -8,11 +8,14 @@ Execução local: **14/09/2026**, Java 17, Maven, JUnit 5, PostgreSQL 18 dedicad
 - [RED JUnit US01](red/us01-junit.log) e [GREEN JUnit US01](green/us01-junit.log), reexecutados a partir dos commits históricos.
 
 - [RED: três falhas JUnit US02](red/us02-junit.log).
+- [RED no IntelliJ: três testes executados e três falhas esperadas](red/us02-red-intellij.png).
 - [RED: aceite HTTP e idempotência](red/us02-aceitacao.log).
 - [RED: histórico da carteira ausente](red/historico-carteira.log).
 - [GREEN: testes aprovados](green/us02-junit.log).
+- [GREEN no IntelliJ: build aprovado](green/us02-green.png).
 - [BLUE: 37 testes aprovados, nenhum ignorado](blue/verificacao-completa.log).
 - [Relatório JaCoCo completo](blue/cobertura/index.html) e [CSV](blue/cobertura/jacoco.csv).
+- [Captura do BLUE: cobertura de 100%](blue/cobertura/us02-blue-cobertura-100.png).
 - [Build Vue](blue/vue-build.log) e [teste de navegador](blue/vue-e2e.log).
 
 ![Cobertura JaCoCo](blue/cobertura.png)
@@ -41,7 +44,7 @@ No computador local, Docker Desktop falhou antes de iniciar o engine com `initia
 
 ## IntelliJ Ultimate e Canvas
 
-Para a comprovação específica na IDE, abrir o projeto no IntelliJ Ultimate, executar os testes históricos indicados no README e capturar o resultado do BLUE usando Run with Coverage. Os logs Maven/JUnit comprovam os resultados automatizados, mas não comprovam uso da IDE.
+As etapas RED e GREEN foram executadas no IntelliJ Ultimate e estão registradas nas capturas acima. No RED, os três testes da promoção falharam conforme esperado. No GREEN, a implementação passou pelos testes. A etapa BLUE foi verificada com 37 testes aprovados e relatório JaCoCo com 100% de instruções, linhas, branches, métodos e classes analisadas.
 
 O link do repositório deve ser enviado pelo integrante no Canvas. Não houve postagem automática.
 
