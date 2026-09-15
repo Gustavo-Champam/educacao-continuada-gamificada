@@ -1,4 +1,4 @@
-Reexecução da versão RED 45be164; verificação auxiliar Java (não JUnit).
+Reexecução da versão RED 2a76de7; verificação auxiliar Java (não JUnit).
 FAIL: 12o curso com media 7 promove -- AssertionError
 FAIL: 11o curso mantem Basico -- AssertionError
 PASS: media 0.0 nao conta nem promove

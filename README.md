@@ -346,9 +346,9 @@ Durante o desenvolvimento foram registradas evidências das diferentes etapas do
 | RED US01            | `2a76de7` / `evidencias/red/us01-junit.log`     | Testes falhando conforme esperado        |
 | GREEN US01          | `834faae` / `evidencias/green/us01-junit.log`   | 12 testes aprovados                      |
 | BLUE US01           | `f83e7ba`                                       | Refatoração mantendo os testes aprovados |
-| RED US02            | `e87b6d3` / [log](evidencias/red/us02-junit.log) / [IntelliJ](evidencias/red/us02-red-intellij.png) | 3 testes executados e 3 falhas esperadas |
-| RED integração US02 | `5d98957` / `evidencias/red/us02-aceitacao.log` | 20 testes, sendo 5 falhas esperadas      |
-| GREEN US02          | `5af98ff` / [log](evidencias/green/us02-junit.log) / [IntelliJ](evidencias/green/us02-green.png) | Testes aprovados                         |
+| RED US02            | `d9a87e9` / [log](evidencias/red/us02-junit.log) / [IntelliJ](evidencias/red/us02-red-intellij.png) | 3 testes executados e 3 falhas esperadas |
+| RED integração US02 | `cccb7dd` / `evidencias/red/us02-aceitacao.log` | 20 testes, sendo 5 falhas esperadas      |
+| GREEN US02          | `bfb70cc` / [log](evidencias/green/us02-junit.log) / [IntelliJ](evidencias/green/us02-green.png) | Testes aprovados                         |
 | BLUE final          | [verificação completa](evidencias/blue/verificacao-completa.log) | 37 testes aprovados                      |
 | Cobertura           | [relatório JaCoCo](evidencias/blue/cobertura/index.html) / [captura](evidencias/blue/cobertura/us02-blue-cobertura-100.png) | 100% de instruções, branches, linhas, métodos e classes |
 | Front-end           | `evidencias/blue/vue-e2e.log`                   | Fluxos da interface testados             |
@@ -372,8 +372,8 @@ A cobertura foi utilizada como uma evidência complementar. Os critérios de ace
 É possível acessar versões anteriores do projeto sem alterar a versão atual utilizando `git worktree`.
 
 ```sh
-git worktree add ../educacao-red e87b6d3
-git worktree add ../educacao-green 5af98ff
+git worktree add ../educacao-red d9a87e9
+git worktree add ../educacao-green bfb70cc
 ```
 
 Executar RED:
