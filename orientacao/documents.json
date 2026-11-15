@@ -1,0 +1,6 @@
+[
+ {"id":"DOC-01","title":"Trilha Java e APIs","text":"A trilha Java e APIs é indicada a iniciantes que precisam aprender orientação a objetos, HTTP, REST e testes com Spring Boot."},
+ {"id":"DOC-02","title":"Arquitetura de software","text":"A trilha Arquitetura de Software aborda modularidade, C4, Clean Architecture, microsserviços, ADR, ASR e mensageria com RabbitMQ. Recomendada para perfil intermediário."},
+ {"id":"DOC-03","title":"Machine Learning","text":"A trilha Machine Learning aborda preparação de dados, classificação supervisionada, regressão logística, validação e métricas. Indicada a estudantes intermediários e avançados."},
+ {"id":"DOC-04","title":"RAG e Agentes de IA","text":"A trilha de IA aplicada aborda embeddings, recuperação de documentos, geração fundamentada, agentes com ferramentas, avaliação RAGAS, segurança e observabilidade. Indicada a perfil avançado."}
+]

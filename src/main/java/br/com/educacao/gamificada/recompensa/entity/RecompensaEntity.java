@@ -1,4 +1,6 @@
-package br.com.educacao.gamificada.entity;
+package br.com.educacao.gamificada.recompensa.entity;
+import br.com.educacao.gamificada.entity.ConclusaoCursoEntity;
+import br.com.educacao.gamificada.entity.AlunoEntity;
 
 import jakarta.persistence.*;
 import java.time.Instant;
