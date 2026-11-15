@@ -24,7 +24,7 @@ def start_lemond(retries: int = 3) -> tuple[subprocess.Popen, str, int]:
             _wait_for_health(port, key, timeout_s=30)
             return proc, key, port
         except RuntimeError as e:
-            proc.kill()
+            stop_lemond(proc)
             proc.wait()
             last_err = e
     raise RuntimeError(f"lemond failed to start after {retries} attempts") from last_err
@@ -41,3 +41,12 @@ def _wait_for_health(port: int, key: str, timeout_s: int) -> None:
         except Exception:
             time.sleep(0.25)
     raise RuntimeError(f"lemond on port {port} did not become healthy within {timeout_s}s")
+
+
+def stop_lemond(proc):
+    """Encerra a árvore privada: o backend llama-server também é um subprocesso."""
+    if sys.platform == 'win32':
+        subprocess.run(['taskkill','/PID',str(proc.pid),'/T','/F'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+    elif proc.poll() is None:
+        proc.terminate()
+    if proc.poll() is None:proc.wait(timeout=15)

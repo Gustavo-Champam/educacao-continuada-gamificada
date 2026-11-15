@@ -1,0 +1,68 @@
+services:
+  postgres-af:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: educacao_af
+      POSTGRES_USER: educacao
+      POSTGRES_PASSWORD: ${AF_DB_PASSWORD:?Execute preparar_af.py}
+    ports: ['127.0.0.1:55435:5432']
+    volumes: ['postgres_af:/var/lib/postgresql/data']
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U educacao -d educacao_af']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  rabbitmq-af:
+    image: rabbitmq:3.13-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: gamification
+      RABBITMQ_DEFAULT_PASS: ${AF_RABBIT_PASSWORD:?Execute preparar_af.py}
+    ports: ['127.0.0.1:5675:5672', '127.0.0.1:15675:15672']
+    volumes: ['rabbit_af:/var/lib/rabbitmq']
+    healthcheck:
+      test: ['CMD', 'rabbitmq-diagnostics', '-q', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 20
+  core-af:
+    build: .
+    ports: ['127.0.0.1:8085:8080']
+    extra_hosts: ['host.docker.internal:host-gateway']
+    environment:
+      SPRING_PROFILES_ACTIVE: af,postgres
+      SERVER_PORT: 8080
+      DB_URL: jdbc:postgresql://postgres-af:5432/educacao_af
+      DB_USER: educacao
+      DB_PASSWORD: ${AF_DB_PASSWORD}
+      AF_ADMIN_PASSWORD: ${AF_ADMIN_PASSWORD}
+      AF_ALUNO1_PASSWORD: ${AF_ALUNO1_PASSWORD}
+      AF_ALUNO2_PASSWORD: ${AF_ALUNO2_PASSWORD}
+      AF_ML_URL: http://ml-af:8001
+      AF_ORIENTACAO_URL: http://host.docker.internal:8012
+      AF_EVALUATION_URL: http://host.docker.internal:8013
+      AF_SERVICE_TOKEN: ${AF_SERVICE_TOKEN}
+      RABBITMQ_HOST: rabbitmq-af
+      RABBITMQ_USER: gamification
+      RABBITMQ_PASS: ${AF_RABBIT_PASSWORD}
+    depends_on:
+      postgres-af: {condition: service_healthy}
+      rabbitmq-af: {condition: service_healthy}
+  ml-af:
+    build: ./ml
+    ports: ['127.0.0.1:8011:8001']
+    environment:
+      ML_AUTO_TRAIN: 'false'
+    volumes: ['ml_af:/data']
+  ml-worker-af:
+    build: {context: ./ml, dockerfile: Dockerfile.worker}
+    environment:
+      RABBITMQ_HOST: rabbitmq-af
+      RABBITMQ_USER: gamification
+      RABBITMQ_PASS: ${AF_RABBIT_PASSWORD}
+    volumes: ['ml_af:/data']
+    depends_on:
+      rabbitmq-af: {condition: service_healthy}
+volumes:
+  postgres_af:
+  rabbit_af:
+  ml_af:

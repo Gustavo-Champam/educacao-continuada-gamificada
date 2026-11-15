@@ -1,0 +1,39 @@
+name: AF - integracao e carga reais
+on:
+  push:
+    branches: ['af/evolucao-ia-local']
+    paths-ignore: ['documentacao/**', '*.md', '*.pdf', 'evidencias/**']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  af:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Preparar configuracao privada
+        run: |
+          python preparar_af.py
+          pip install httpx==0.28.1
+      - name: Construir e subir PostgreSQL Core ML e RabbitMQ
+        run: docker compose --env-file .env.af -f compose.af.yaml up -d --build
+      - name: Verificar integracao seguranca falhas e carga
+        run: python scripts/validar-af.py
+      - name: Registrar containers e logs
+        if: always()
+        run: |
+          mkdir -p evidencias/af-ci
+          docker compose --env-file .env.af -f compose.af.yaml ps -a > evidencias/af-ci/containers.txt
+          docker compose --env-file .env.af -f compose.af.yaml logs --no-color > evidencias/af-ci/containers.log
+          git rev-parse HEAD > evidencias/af-ci/commit.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: af-integracao-real
+          path: evidencias/af-ci/
+      - name: Encerrar
+        if: always()
+        run: docker compose --env-file .env.af -f compose.af.yaml down

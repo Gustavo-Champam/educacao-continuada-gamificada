@@ -20,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Profile("af")
 @RequestMapping("/api/af")
 public class OrientacaoController {
+ @Value("${af.service-token:}") private String serviceToken="";
  private final AlunoService alunos;
  private final RestClient orientacao;
  private final RestClient ml;
@@ -52,7 +53,7 @@ public class OrientacaoController {
   return post(orientacao,"/agente",Map.of("pergunta",p.pergunta(),"perfil",p.perfil(),"autoriza_consulta",true));
  }
  private JsonNode post(RestClient client,String path,Object body){
-  try{return client.post().uri(path).body(body).retrieve().body(JsonNode.class);}
+  try{return client.post().uri(path).header("X-AF-Service",serviceToken).body(body).retrieve().body(JsonNode.class);}
   catch(RestClientException e){throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE,"Servico de IA indisponivel; os cadastros continuam funcionando.");}
  }
 }
