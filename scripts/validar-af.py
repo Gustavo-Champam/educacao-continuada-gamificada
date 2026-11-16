@@ -1,5 +1,5 @@
 """Integração real por HTTP e interrupção de containers. Não usa mocks."""
-import os,json,time,subprocess,statistics,concurrent.futures,threading
+import os,json,time,subprocess,asyncio
 from pathlib import Path
 import httpx
 ROOT=Path(__file__).resolve().parents[1];OUT=ROOT/'evidencias/af-ci';OUT.mkdir(parents=True,exist_ok=True)
@@ -50,21 +50,28 @@ report={'aluno_promovido':aluno,'job_ml_offline':job,'estado_em_fila':queued,'co
 (OUT/'integracao.json').write_text(json.dumps(report,ensure_ascii=False,indent=2))
 # Carga: 3 ondas, 300 usuários liberados simultaneamente por onda, após 20 aquecimentos.
 for _ in range(20):client.post('/api/af/alunos/1/classificacao',json=features).raise_for_status()
-latencies=[];errors=[]
-for wave in range(3):
- barrier=threading.Barrier(300)
- def request(i):
-  barrier.wait(timeout=30);start=time.perf_counter()
-  try:
-   r=client.post('/api/af/alunos/1/classificacao',json=features)
-   return time.perf_counter()-start,r.status_code
-  except httpx.HTTPError:return time.perf_counter()-start,0
- with concurrent.futures.ThreadPoolExecutor(max_workers=300) as pool:
-  for elapsed,status in pool.map(request,range(300)):
-   latencies.append(elapsed)
-   if status!=200:errors.append(status)
+async def measure():
+ latencies=[];errors=[]
+ # Uma conexão assíncrona por usuário: evita que 300 threads do gerador
+ # disputem o GIL e a trava do pool HTTP durante a medição.
+ async with httpx.AsyncClient(base_url=base,auth=('champam',config['AF_ADMIN_PASSWORD']),headers=headers,timeout=15,trust_env=False,limits=httpx.Limits(max_connections=350,max_keepalive_connections=350)) as load_client:
+  for wave in range(3):
+   gate=asyncio.Event()
+   async def request():
+    await gate.wait();start=time.perf_counter()
+    try:
+     r=await load_client.post('/api/af/alunos/1/classificacao',json=features)
+     return time.perf_counter()-start,r.status_code
+    except httpx.HTTPError:return time.perf_counter()-start,0
+   tasks=[asyncio.create_task(request()) for _ in range(300)]
+   await asyncio.sleep(0);gate.set()
+   for elapsed,status in await asyncio.gather(*tasks):
+    latencies.append(elapsed)
+    if status!=200:errors.append(status)
+ return latencies,errors
+latencies,errors=asyncio.run(measure())
 latencies.sort();p95=latencies[int(len(latencies)*.95)-1]
-load={'usuarios_simultaneos':300,'ondas':3,'requisicoes':len(latencies),'aquecimentos':20,'p95_segundos':p95,'erros':len(errors),'status_erros':errors,'criterio_atendido':p95<=2 and not errors,'ambiente':'GitHub Actions ubuntu-24.04, Docker, rede local do runner; teste de rajadas, nao carga sustentada'}
+load={'gerador':'httpx AsyncClient, barreira asyncio; versao anterior usava 300 threads','usuarios_simultaneos':300,'ondas':3,'requisicoes':len(latencies),'aquecimentos':20,'p95_segundos':p95,'erros':len(errors),'status_erros':errors,'criterio_atendido':p95<=2 and not errors,'ambiente':'GitHub Actions ubuntu-24.04, Docker, rede local do runner; teste de rajadas, nao carga sustentada'}
 (OUT/'carga.json').write_text(json.dumps(load,indent=2))
 print(json.dumps(load))
 assert load['criterio_atendido'], 'RNF01: p95 deve ser <= 2 s, sem erros, com 300 usuarios simultaneos'
