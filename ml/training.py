@@ -20,7 +20,8 @@ def train(job_id='initial', seed=42):
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     # Gerar novamente com semente fixa: experimento reproduzível.
     df = generate(str(DATASET), n=1500, seed=seed)
-    X, y = df[FEATURES], df['profile_label']
+    # Mesma ordem FEATURES usada na inferência, sem avisos por nomes de colunas.
+    X, y = df[FEATURES].to_numpy(), df['profile_label']
     X_dev, X_test, y_dev, y_test = train_test_split(X,y,test_size=.15,random_state=seed,stratify=y)
     X_train, X_val, y_train, y_val = train_test_split(X_dev,y_dev,test_size=15/85,random_state=seed,stratify=y_dev)
     pipe = Pipeline([('scaler',StandardScaler()),('model',LogisticRegression(max_iter=1500,random_state=seed))])

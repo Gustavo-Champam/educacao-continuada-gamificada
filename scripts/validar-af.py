@@ -63,3 +63,4 @@ latencies.sort();p95=latencies[int(len(latencies)*.95)-1]
 load={'usuarios_simultaneos':300,'ondas':3,'requisicoes':len(latencies),'aquecimentos':20,'p95_segundos':p95,'erros':len(errors),'status_erros':errors,'criterio_atendido':p95<=2 and not errors,'ambiente':'GitHub Actions ubuntu-24.04, Docker, rede local do runner; teste de rajadas, nao carga sustentada'}
 (OUT/'carga.json').write_text(json.dumps(load,indent=2))
 print(json.dumps(load))
+assert load['criterio_atendido'], 'RNF01: p95 deve ser <= 2 s, sem erros, com 300 usuarios simultaneos'

@@ -79,6 +79,7 @@ app=FastAPI(title='ML — Perfil de Estudante',version='5.3',lifespan=lifespan)
 lock=Lock()
 _cached=None
 _cached_stamp=None
+_cached_version=None
 
 class Features(BaseModel):
     programming_experience_months: float = Field(ge=0,le=120)
@@ -89,13 +90,14 @@ class Features(BaseModel):
     database_knowledge_score: float = Field(ge=0,le=100)
 
 def model():
-    global _cached,_cached_stamp
+    global _cached,_cached_stamp,_cached_version
     if not MODEL.exists():
         raise HTTPException(status_code=503,detail='Modelo não treinado. Execute o treinamento.')
-    stamp=MODEL.stat().st_mtime_ns
+    stamp=(MODEL.stat().st_mtime_ns, METADATA.stat().st_mtime_ns)
     with lock:
         if _cached is None or stamp!=_cached_stamp:
             _cached=joblib.load(MODEL)
+            _cached_version=json.loads(METADATA.read_text(encoding='utf-8'))['version']
             _cached_stamp=stamp
         return _cached
 
@@ -127,13 +129,13 @@ def metadata():
     return json.loads(METADATA.read_text(encoding='utf-8'))
 
 @app.post('/predict')
-def predict(features: Features):
+async def predict(features: Features):
     m=model()
     row=[[getattr(features,k) for k in FEATURES]]
     probabilities=m.predict_proba(row)[0]
-    return {'profile':str(m.predict(row)[0]),
+    return {'profile':str(m.classes_[probabilities.argmax()]),
             'probabilities':{str(k):round(float(v),6) for k,v in zip(m.classes_,probabilities)},
-            'model_version':metadata()['version'], 'synthetic_model':True}
+            'model_version':_cached_version, 'synthetic_model':True}
 
 import json
 import os
