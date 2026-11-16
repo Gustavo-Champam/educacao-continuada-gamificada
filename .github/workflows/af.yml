@@ -22,6 +22,17 @@ jobs:
         run: docker compose --env-file .env.af -f compose.af.yaml up -d --build
       - name: Verificar integracao seguranca falhas e carga
         run: python scripts/validar-af.py
+      - uses: actions/setup-node@v4
+        if: always()
+        with: {node-version: '22'}
+      - name: Verificar interface AF em navegador real
+        if: always()
+        run: |
+          cd frontend
+          npm ci
+          npx playwright install --with-deps chromium
+          cd ..
+          node scripts/verificar-af-ui.cjs
       - name: Registrar containers e logs
         if: always()
         run: |
