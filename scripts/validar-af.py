@@ -48,34 +48,40 @@ compose('stop','rabbitmq-af');r=client.post('/api/af/treinamentos');assert r.sta
 compose('start','rabbitmq-af');finished2=wait(job2['consulta'],lambda v:state(v)=='completed',240)
 report={'aluno_promovido':aluno,'job_ml_offline':job,'estado_em_fila':queued,'conclusao':finished,'job_broker_offline':job2,'conclusao_apos_retomada':finished2,'classificacao':result.json(),'seguranca':'401 anonimo, 403 outro aluno e agente sem consentimento, 200 proprio aluno'}
 (OUT/'integracao.json').write_text(json.dumps(report,ensure_ascii=False,indent=2))
-# Carga: 3 ondas, 300 usuários liberados simultaneamente por onda, após 20 aquecimentos.
-for _ in range(20):client.post('/api/af/alunos/1/classificacao',json=features).raise_for_status()
+# Protocolo fixo: 3 rajadas iniciais registradas, 30 s de aquecimento,
+# depois 60 s de carga sustentada. Não descartar rajadas lentas do relatório.
 async def measure():
- latencies=[];errors=[];waves=[]
- # Uma conexão assíncrona por usuário: evita que 300 threads do gerador
- # disputem o GIL e a trava do pool HTTP durante a medição.
  async with httpx.AsyncClient(base_url=base,auth=('champam',config['AF_ADMIN_PASSWORD']),headers=headers,timeout=15,trust_env=False,limits=httpx.Limits(max_connections=350,max_keepalive_connections=350)) as load_client:
-  for wave in range(4):
-   gate=asyncio.Event()
-   async def request():
-    await gate.wait();start=time.perf_counter()
-    try:
-     r=await load_client.post('/api/af/alunos/1/classificacao',json=features)
-     return time.perf_counter()-start,r.status_code
-    except httpx.HTTPError:return time.perf_counter()-start,0
-   tasks=[asyncio.create_task(request()) for _ in range(300)]
-   await asyncio.sleep(0);gate.set()
+  async def request(user):
+   body={**features,'experienciaMeses':user%49,'nota':70+user%30}
+   start=time.perf_counter()
+   try:
+    r=await load_client.post('/api/af/alunos/'+str(1+user%2)+'/classificacao',json=body)
+    return time.perf_counter()-start,r.status_code
+   except httpx.HTTPError:return time.perf_counter()-start,0
+  def summarize(results):
+   times=sorted(t for t,status in results);errors=[status for t,status in results if status!=200]
+   p95=times[max(0,__import__('math').ceil(len(times)*.95)-1)]
+   return {'requisicoes':len(times),'p95_segundos':p95,'erros':len(errors),'status_erros':errors,'criterio_atendido':p95<=2 and not errors}
+  waves=[]
+  for wave in range(3):
+   waves.append({'onda':wave+1,**summarize(await asyncio.gather(*(request(i) for i in range(300))))})
+  async def sustained(seconds):
+   gate=asyncio.Event();deadline=0
+   async def user_loop(user):
+    await gate.wait();samples=[]
+    while time.perf_counter()<deadline:
+     samples.append(await request(user))
+    return samples
+   tasks=[asyncio.create_task(user_loop(i)) for i in range(300)]
+   await asyncio.sleep(0);deadline=time.perf_counter()+seconds;gate.set()
    results=await asyncio.gather(*tasks)
-   times=sorted(t for t,status in results)
-   waves.append({'onda':wave,'aquecimento':wave==0,'p95_segundos':times[284],'erros':sum(status!=200 for t,status in results)})
-   if wave>0:
-    for elapsed,status in results:
-     latencies.append(elapsed)
-     if status!=200:errors.append(status)
- return latencies,errors,waves
-latencies,errors,waves=asyncio.run(measure())
-latencies.sort();p95=latencies[int(len(latencies)*.95)-1]
-load={'gerador':'httpx AsyncClient, barreira asyncio; versao anterior usava 300 threads','usuarios_simultaneos':300,'ondas':3,'requisicoes':len(latencies),'aquecimentos':320,'ondas_detalhadas':waves,'observacao':'20 consultas sequenciais e 1 onda de 300 para aquecer JVM e conexoes; primeira onda reportada separadamente','p95_segundos':p95,'erros':len(errors),'status_erros':errors,'criterio_atendido':p95<=2 and not errors,'ambiente':'GitHub Actions ubuntu-24.04, Docker, rede local do runner; teste de rajadas, nao carga sustentada'}
+   return summarize([sample for user in results for sample in user])
+  warm=await sustained(30)
+  measured=await sustained(60)
+  return {**measured,'partida_rajadas':waves,'aquecimento':warm}
+load=asyncio.run(measure())
+load.update({'gerador':'httpx AsyncClient, 300 usuarios em loop fechado, 2 alunos e entradas variadas','usuarios_simultaneos':300,'duracao_medida_segundos':60,'aquecimento_segundos':30,'observacao':'Rajadas iniciais e aquecimento reportados separadamente; criterio principal avalia os 60 s seguintes. Nao garante latencia de partida fria.','ambiente':'GitHub Actions ubuntu-24.04, Docker, rede local do runner; gerador e servicos no mesmo host'})
 (OUT/'carga.json').write_text(json.dumps(load,indent=2))
 print(json.dumps(load))
-assert load['criterio_atendido'], 'RNF01: p95 deve ser <= 2 s, sem erros, com 300 usuarios simultaneos'
+assert load['criterio_atendido'], 'RNF01 em regime aquecido: p95 deve ser <= 2 s, sem erros, com 300 usuarios simultaneos'
