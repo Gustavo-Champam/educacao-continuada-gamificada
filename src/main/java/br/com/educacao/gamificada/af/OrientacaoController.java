@@ -29,7 +29,7 @@ public class OrientacaoController {
   this.alunos=alunos; this.orientacao=client(orientacaoUrl,120); this.ml=client(mlUrl,2);
  }
  private RestClient client(String url,int seconds){
-  var factory=new JdkClientHttpRequestFactory(HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(1)).build());
+  var factory=new JdkClientHttpRequestFactory(HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).connectTimeout(Duration.ofSeconds(1)).build());
   factory.setReadTimeout(Duration.ofSeconds(seconds));return RestClient.builder().baseUrl(url).requestFactory(factory).build();
  }
  public record Avaliacao(@Min(0) @Max(120) double experienciaMeses,
