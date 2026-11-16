@@ -52,10 +52,14 @@ services:
     ports: ['127.0.0.1:8011:8001']
     environment:
       ML_AUTO_TRAIN: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
     volumes: ['ml_af:/data']
   ml-worker-af:
     build: {context: ./ml, dockerfile: Dockerfile.worker}
     environment:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
       RABBITMQ_HOST: rabbitmq-af
       RABBITMQ_USER: gamification
       RABBITMQ_PASS: ${AF_RABBIT_PASSWORD}
