@@ -18,6 +18,10 @@ def wait(path,condition=lambda x:True,seconds=180):
  raise RuntimeError('Tempo excedido: '+path)
 def state(v):return v.get('status',v.get('STATUS'))
 wait('/actuator/health')
+course={'codigo':'JAVA-01','nome':'Java e APIs REST','descricao':'Trilha didatica de Java e REST'}
+assert client.post('/api/af/cursos',json=course).status_code==201
+assert client.post('/api/af/cursos',json=course).status_code==409
+assert client.get('/api/af/cursos').json()==[course]
 students=[]
 for name in ['Ana AF','Bruno AF']:
  r=client.post('/api/alunos',json={'nome':name});r.raise_for_status();students.append(r.json())
