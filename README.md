@@ -1,3 +1,5 @@
+> **Evolução AF:** a implementação está na branch `af/evolucao-ia-local`. Consulte [relatório e roteiro](documentacao/af/RELATORIO_AF.md), [execução](documentacao/af/EXECUCAO.md) e [resultados verificados](documentacao/af/STATUS.md). A documentação abaixo preserva o histórico da AC1.
+
 # Evolução AF com IA local
 
 A base da AC1 foi preservada e recebeu a modularização do B1 e integrações em desenvolvimento para a AF. Consulte [estado atual, evidências e pendências](documentacao/af/STATUS.md) antes de demonstrar.

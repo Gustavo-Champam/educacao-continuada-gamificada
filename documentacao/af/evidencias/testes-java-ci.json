@@ -1,0 +1,43 @@
+{
+  "commit": "6c9e499a40ab709d234a72cb10b4cb88f40cf323",
+  "run_id": 43948164464,
+  "ambiente": "GitHub Actions, H2 e PostgreSQL reais",
+  "testes": {
+    "tests": 56,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "jacoco": [
+    {
+      "type": "INSTRUCTION",
+      "missed": "5",
+      "covered": "1665"
+    },
+    {
+      "type": "BRANCH",
+      "missed": "0",
+      "covered": "106"
+    },
+    {
+      "type": "LINE",
+      "missed": "0",
+      "covered": "244"
+    },
+    {
+      "type": "COMPLEXITY",
+      "missed": "1",
+      "covered": "158"
+    },
+    {
+      "type": "METHOD",
+      "missed": "1",
+      "covered": "104"
+    },
+    {
+      "type": "CLASS",
+      "missed": "0",
+      "covered": "35"
+    }
+  ]
+}

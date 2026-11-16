@@ -19,7 +19,19 @@
 | Operação | Docker, testes, logs e capturas | Não confundir configuração com execução |
 | Reunião | Roteiro e demonstração em dupla | Gravação real pelos integrantes |
 
-## Situação desta preparação
-Fontes relidas e projetos de referência extraídos. Base AC1/B1 copiada para core; ML e avaliação provenientes do laboratório V5.3.2. A cópia é ponto de partida: ainda não comprova integração, execução ou conclusão da AF prática.
+## Implementação e evidências
 
-O computador não possui Docker no caminho padrão nem no PATH verificado. O laboratório de referência depende de API de LLM para RAG/RAGAS. A opção de execução do modelo está sendo definida sem publicar credenciais nem contratar serviços.
+| Requisito | Implementação | Evidência / limite |
+|---|---|---|
+| RF01 | Cadastro e consulta de alunos e catálogo de cursos persistente | Testes HTTP, H2, PostgreSQL e interface |
+| RF02 | Classificação Python; histórico de cursos obtido da AC1 | Modelo real treinado com dados sintéticos |
+| RF03 | TF-IDF + Qwen3 local com fontes | demo-integrada.json; quatro documentos didáticos |
+| RF04 | Agente de fluxo controlado, consulta somente leitura | agente-integrado.json; consentimento obrigatório |
+| RF05 | Job/outbox persistente, consulta de estados | integracao.json; operação administrativa para a equipe |
+| RNF01 | Pools, inferência em dois processos e ensaio com 300 usuários | Consultar carga-final.json e histórico; sem extrapolar para produção |
+| RNF02 | Aceita com ML ou RabbitMQ interrompidos | Interrupção e retomada reais na CI |
+| RNF03 | Contas por papel, escopo do aluno, token entre serviços | 401/403 e testes; OIDC/TLS/auditoria ainda são evolução de produção |
+| RNF04 | IA em serviços com APIs e imagens separadas | Regressão da AC1 e indisponibilidade de ML |
+| RNF05 | Modelo local sem cobrança de API; poucos serviços centrais | Hardware e operação ainda têm custos |
+
+O vídeo deve ser gravado pela dupla. O documento escrito, o roteiro e o código não substituem a gravação nem autorizam presumir dispensa da prova.

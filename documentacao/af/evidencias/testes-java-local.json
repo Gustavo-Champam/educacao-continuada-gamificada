@@ -1,0 +1,41 @@
+{
+  "ambiente": "Windows, mvnw verify; PostgreSQL testado na CI",
+  "testes": {
+    "tests": 56,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1
+  },
+  "jacoco": [
+    {
+      "type": "INSTRUCTION",
+      "missed": "5",
+      "covered": "1663"
+    },
+    {
+      "type": "BRANCH",
+      "missed": "0",
+      "covered": "106"
+    },
+    {
+      "type": "LINE",
+      "missed": "0",
+      "covered": "244"
+    },
+    {
+      "type": "COMPLEXITY",
+      "missed": "1",
+      "covered": "158"
+    },
+    {
+      "type": "METHOD",
+      "missed": "1",
+      "covered": "104"
+    },
+    {
+      "type": "CLASS",
+      "missed": "0",
+      "covered": "35"
+    }
+  ]
+}

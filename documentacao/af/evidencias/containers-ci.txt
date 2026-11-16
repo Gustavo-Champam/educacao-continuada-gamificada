@@ -1,0 +1,6 @@
+NAME                                            IMAGE                                         COMMAND                  SERVICE        CREATED         STATUS                   PORTS
+educacao-continuada-gamificada-core-af-1        educacao-continuada-gamificada-core-af        "java -jar app.jar"      core-af        2 minutes ago   Up 2 minutes             127.0.0.1:8085->8080/tcp
+educacao-continuada-gamificada-ml-af-1          educacao-continuada-gamificada-ml-af          "uvicorn app:app --h…"   ml-af          2 minutes ago   Up 2 minutes             127.0.0.1:8011->8001/tcp
+educacao-continuada-gamificada-ml-worker-af-1   educacao-continuada-gamificada-ml-worker-af   "python worker.py"       ml-worker-af   2 minutes ago   Up 2 minutes             
+educacao-continuada-gamificada-postgres-af-1    postgres:17-alpine                            "docker-entrypoint.s…"   postgres-af    2 minutes ago   Up 2 minutes (healthy)   127.0.0.1:55435->5432/tcp
+educacao-continuada-gamificada-rabbitmq-af-1    rabbitmq:3.13-management-alpine               "docker-entrypoint.s…"   rabbitmq-af    2 minutes ago   Up 2 minutes (healthy)   4369/tcp, 5671/tcp, 15671/tcp, 15691-15692/tcp, 25672/tcp, 127.0.0.1:5675->5672/tcp, 127.0.0.1:15675->15672/tcp

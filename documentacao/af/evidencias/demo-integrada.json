@@ -1,0 +1,53 @@
+{
+  "ambiente": "Windows, Core Java/H2 e servicos Python locais; RabbitMQ validado na CI",
+  "aluno": {
+    "id": 1,
+    "nome": "Ana AF",
+    "plano": "BASICO",
+    "cursosConcluidos": 0,
+    "vouchers": 0,
+    "moedas": 0
+  },
+  "catalogo": [
+    {
+      "nome": "Java e APIs REST",
+      "descricao": "Trilha didática de Java e APIs REST.",
+      "codigo": "JAVA-01"
+    }
+  ],
+  "classificacao": {
+    "profile": "INTERMEDIARIO",
+    "probabilities": {
+      "AVANCADO": 0.007082,
+      "INICIANTE": 0.001447,
+      "INTERMEDIARIO": 0.991472
+    },
+    "model_version": "20261115T072157Z",
+    "synthetic_model": true
+  },
+  "rag": {
+    "resposta": "Com base nas fontes fornecidas, a trilha mais adequada para um iniciante que deseja aprender Java e APIs REST é:\n\n- **DOC-01: Trilha Java e APIs**  \n  Esta trilha é indicada para iniciantes que precisam aprender orientação a objetos, HTTP, REST e testes com Spring Boot, o que se alinha perfeitamente com seus objetivos.",
+    "fontes": [
+      {
+        "id": "DOC-01",
+        "title": "Trilha Java e APIs",
+        "text": "A trilha Java e APIs é indicada a iniciantes que precisam aprender orientação a objetos, HTTP, REST e testes com Spring Boot.",
+        "score": 0.5681
+      },
+      {
+        "id": "DOC-03",
+        "title": "Machine Learning",
+        "text": "A trilha Machine Learning aborda preparação de dados, classificação supervisionada, regressão logística, validação e métricas. Indicada a estudantes intermediários e avançados.",
+        "score": 0.0186
+      },
+      {
+        "id": "DOC-02",
+        "title": "Arquitetura de software",
+        "text": "A trilha Arquitetura de Software aborda modularidade, C4, Clean Architecture, microsserviços, ADR, ASR e mensageria com RabbitMQ. Recomendada para perfil intermediário.",
+        "score": 0.0171
+      }
+    ],
+    "geracao": true,
+    "modelo": "Qwen3-4B-GGUF"
+  }
+}
