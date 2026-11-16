@@ -1,7 +1,7 @@
 """Integração real por HTTP e interrupção de containers. Não usa mocks."""
 import os,json,time,subprocess,asyncio
 from pathlib import Path
-import httpx
+import httpx,aiohttp,base64
 ROOT=Path(__file__).resolve().parents[1];OUT=ROOT/'evidencias/af-ci';OUT.mkdir(parents=True,exist_ok=True)
 config=dict(line.split('=',1) for line in (ROOT/'.env.af').read_text().splitlines() if '=' in line)
 base='http://127.0.0.1:8085';headers={'X-AF-Request':'1'}
@@ -51,14 +51,16 @@ report={'aluno_promovido':aluno,'job_ml_offline':job,'estado_em_fila':queued,'co
 # Protocolo fixo: 3 rajadas iniciais registradas, 30 s de aquecimento,
 # depois 60 s de carga sustentada. Não descartar rajadas lentas do relatório.
 async def measure():
- async with httpx.AsyncClient(base_url=base,auth=('champam',config['AF_ADMIN_PASSWORD']),headers=headers,timeout=15,trust_env=False,limits=httpx.Limits(max_connections=350,max_keepalive_connections=350)) as load_client:
+ authorization='Basic '+base64.b64encode(('champam:'+config['AF_ADMIN_PASSWORD']).encode()).decode()
+ async with aiohttp.ClientSession(headers={**headers,'Authorization':authorization},timeout=aiohttp.ClientTimeout(total=15),connector=aiohttp.TCPConnector(limit=350)) as load_client:
   async def request(user):
    body={**features,'experienciaMeses':user%49,'nota':70+user%30}
    start=time.perf_counter()
    try:
-    r=await load_client.post('/api/af/alunos/'+str(1+user%2)+'/classificacao',json=body)
-    return time.perf_counter()-start,r.status_code
-   except httpx.HTTPError:return time.perf_counter()-start,0
+    async with load_client.post(base+'/api/af/alunos/'+str(1+user%2)+'/classificacao',json=body) as r:
+     await r.read()
+     return time.perf_counter()-start,r.status
+   except (aiohttp.ClientError,asyncio.TimeoutError):return time.perf_counter()-start,0
   def summarize(results):
    times=sorted(t for t,status in results);errors=[status for t,status in results if status!=200]
    p95=times[max(0,__import__('math').ceil(len(times)*.95)-1)]
@@ -81,7 +83,7 @@ async def measure():
   measured=await sustained(60)
   return {**measured,'partida_rajadas':waves,'aquecimento':warm}
 load=asyncio.run(measure())
-load.update({'gerador':'httpx AsyncClient, 300 usuarios em loop fechado, 2 alunos e entradas variadas','usuarios_simultaneos':300,'duracao_medida_segundos':60,'aquecimento_segundos':30,'observacao':'Rajadas iniciais e aquecimento reportados separadamente; criterio principal avalia os 60 s seguintes. Nao garante latencia de partida fria.','ambiente':'GitHub Actions ubuntu-24.04, Docker, rede local do runner; gerador e servicos no mesmo host'})
+load.update({'gerador':'aiohttp '+aiohttp.__version__+', 300 usuarios em loop fechado, 2 alunos e entradas variadas','usuarios_simultaneos':300,'duracao_medida_segundos':60,'aquecimento_segundos':30,'observacao':'Rajadas iniciais e aquecimento reportados separadamente; criterio principal avalia os 60 s seguintes. Nao garante latencia de partida fria.','ambiente':'GitHub Actions ubuntu-24.04, Docker, rede local do runner; gerador e servicos no mesmo host'})
 (OUT/'carga.json').write_text(json.dumps(load,indent=2))
 print(json.dumps(load))
 assert load['criterio_atendido'], 'RNF01 em regime aquecido: p95 deve ser <= 2 s, sem erros, com 300 usuarios simultaneos'
