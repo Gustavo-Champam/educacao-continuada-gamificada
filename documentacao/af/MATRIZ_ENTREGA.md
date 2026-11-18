@@ -1,3 +1,5 @@
+> **Registro histórico da stack anterior.** Consulte o [README AF v3](../../README.md) e a [entrega RF02/RF05](ENTREGA_CHAMPAM.md) para execução e pendências atuais.
+
 # Matriz de entrega AF
 
 ## Fontes e interpretação
