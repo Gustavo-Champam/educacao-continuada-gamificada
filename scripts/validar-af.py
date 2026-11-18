@@ -1,12 +1,12 @@
-"""Integração real por HTTP e interrupção de containers. Não usa mocks."""
+"""IntegraÃ§Ã£o real por HTTP e interrupÃ§Ã£o de containers. NÃ£o usa mocks."""
 import os,json,time,subprocess,asyncio
 from pathlib import Path
 import httpx,aiohttp,base64
 ROOT=Path(__file__).resolve().parents[1];OUT=ROOT/'evidencias/af-ci';OUT.mkdir(parents=True,exist_ok=True)
-config=dict(line.split('=',1) for line in (ROOT/'.env.af').read_text().splitlines() if '=' in line)
+config={key:os.getenv(key,value) for key,value in {'AF_DB_PASSWORD': 'af_demo_database', 'AF_RABBIT_PASSWORD': 'af_demo_rabbit', 'AF_ADMIN_PASSWORD': 'af-demo-champam-2026', 'AF_ALUNO1_PASSWORD': 'af-demo-aluno1-2026', 'AF_ALUNO2_PASSWORD': 'af-demo-aluno2-2026', 'AF_SERVICE_TOKEN': 'af-demo-internal-2026'}.items()}
 base='http://127.0.0.1:8085';headers={'X-AF-Request':'1'}
 client=httpx.Client(base_url=base,auth=('champam',config['AF_ADMIN_PASSWORD']),headers=headers,timeout=15,trust_env=False,limits=httpx.Limits(max_connections=350,max_keepalive_connections=350))
-def compose(*args):subprocess.run(['docker','compose','--env-file','.env.af','-f','compose.af.yaml',*args],cwd=ROOT,check=True,stdout=subprocess.DEVNULL)
+def compose(*args):subprocess.run(['docker','compose',*args],cwd=ROOT,check=True,stdout=subprocess.DEVNULL)
 def wait(path,condition=lambda x:True,seconds=180):
  end=time.monotonic()+seconds
  while time.monotonic()<end:
@@ -17,7 +17,7 @@ def wait(path,condition=lambda x:True,seconds=180):
   time.sleep(2)
  raise RuntimeError('Tempo excedido: '+path)
 def state(v):return v.get('status',v.get('STATUS'))
-wait('/actuator/health')
+wait('/actuator/health',seconds=600)
 course={'codigo':'JAVA-01','nome':'Java e APIs REST','descricao':'Trilha didatica de Java e REST'}
 assert client.post('/api/af/cursos',json=course).status_code==201
 assert client.post('/api/af/cursos',json=course).status_code==409
@@ -30,26 +30,26 @@ assert httpx.get(base+'/api/alunos').status_code==401
 assert httpx.get(base+'/api/alunos/2',auth=('aluno1',config['AF_ALUNO1_PASSWORD'])).status_code==403
 assert httpx.get(base+'/api/alunos/1',auth=('aluno1',config['AF_ALUNO1_PASSWORD'])).status_code==200
 assert client.post('/api/af/alunos/1/agente',json={'pergunta':'Java REST','perfil':'iniciante','autorizaConsulta':False}).status_code==403
-# Preservar a regra original da AC1 e validar 1203 pontos após promoção.
+# Preservar a regra original da AC1 e validar 1203 pontos apÃ³s promoÃ§Ã£o.
 for i in range(12):
  r=client.post('/api/alunos/1/conclusoes',json={'codigoCurso':f'AF-{i}','media':8});r.raise_for_status()
 aluno=client.get('/api/alunos/1').json();assert aluno['plano']=='PREMIUM' and aluno['moedas']==3 and aluno['vouchers']==1
-# API ML e worker parados: o Core ainda aceita o pedido e a fila retém a mensagem.
+# API ML e worker parados: o Core ainda aceita o pedido e a fila retÃ©m a mensagem.
 compose('stop','ml-worker-af','ml-af')
 r=client.post('/api/af/treinamentos');assert r.status_code==202;job=r.json();time.sleep(8)
 queued=wait(job['consulta'],lambda v:state(v)=='queued')
-# API retorna, consumidor continua parado: pedido não conclui antecipadamente.
+# API retorna, consumidor continua parado: pedido nÃ£o conclui antecipadamente.
 compose('start','ml-af');time.sleep(3);assert state(client.get(job['consulta']).json())=='queued'
 compose('start','ml-worker-af');finished=wait(job['consulta'],lambda v:state(v)=='completed',240)
 features={'experienciaMeses':12,'nota':80,'horasSemanais':6,'conhecimentoRest':70,'conhecimentoBanco':80}
 result=client.post('/api/af/alunos/1/classificacao',json=features);result.raise_for_status()
-# Broker parado: o registro persiste sem confirmação de publicação; retoma depois.
+# Broker parado: o registro persiste sem confirmaÃ§Ã£o de publicaÃ§Ã£o; retoma depois.
 compose('stop','rabbitmq-af');r=client.post('/api/af/treinamentos');assert r.status_code==202;job2=r.json();time.sleep(4);assert state(client.get(job2['consulta']).json())=='received'
 compose('start','rabbitmq-af');finished2=wait(job2['consulta'],lambda v:state(v)=='completed',240)
 report={'aluno_promovido':aluno,'job_ml_offline':job,'estado_em_fila':queued,'conclusao':finished,'job_broker_offline':job2,'conclusao_apos_retomada':finished2,'classificacao':result.json(),'seguranca':'401 anonimo, 403 outro aluno e agente sem consentimento, 200 proprio aluno'}
 (OUT/'integracao.json').write_text(json.dumps(report,ensure_ascii=False,indent=2))
 # Protocolo fixo: 3 rajadas iniciais registradas, 30 s de aquecimento,
-# depois 60 s de carga sustentada. Não descartar rajadas lentas do relatório.
+# depois 60 s de carga sustentada. NÃ£o descartar rajadas lentas do relatÃ³rio.
 async def measure():
  authorization='Basic '+base64.b64encode(('champam:'+config['AF_ADMIN_PASSWORD']).encode()).decode()
  async with aiohttp.ClientSession(headers={**headers,'Authorization':authorization},timeout=aiohttp.ClientTimeout(total=15),connector=aiohttp.TCPConnector(limit=350)) as load_client:

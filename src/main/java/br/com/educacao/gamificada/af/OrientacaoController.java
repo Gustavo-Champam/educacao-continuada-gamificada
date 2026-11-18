@@ -1,6 +1,7 @@
 package br.com.educacao.gamificada.af;
 
 import br.com.educacao.gamificada.service.AlunoService;
+import br.com.educacao.gamificada.af.application.ClassificarCompetencias;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -24,9 +25,12 @@ public class OrientacaoController {
  private final AlunoService alunos;
  private final RestClient orientacao;
  private final RestClient ml;
+ private final ClassificarCompetencias<JsonNode> classificacao;
  public OrientacaoController(AlunoService alunos, @Value("${af.orientacao.url:http://127.0.0.1:8012}") String orientacaoUrl,
    @Value("${af.ml.url:http://127.0.0.1:8011}") String mlUrl) {
   this.alunos=alunos; this.orientacao=client(orientacaoUrl,120); this.ml=client(mlUrl,2);
+  this.classificacao=new ClassificarCompetencias<>(id->alunos.buscar(id).cursosConcluidos(),
+   atributos->post(ml,"/predict",atributos));
  }
  private RestClient client(String url,int seconds){
   var factory=new JdkClientHttpRequestFactory(HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).connectTimeout(Duration.ofSeconds(1)).build());
@@ -38,9 +42,7 @@ public class OrientacaoController {
  public record Pergunta(@NotBlank @Size(max=1000) String pergunta, @NotBlank @Size(max=40) String perfil, boolean autorizaConsulta) {}
  @PostMapping("/alunos/{id}/classificacao")
  public JsonNode classificar(@PathVariable Long id,@Valid @RequestBody Avaliacao a){
-  var aluno=alunos.buscar(id);
-  return post(ml,"/predict",Map.of("programming_experience_months",a.experienciaMeses(),"completed_courses",aluno.cursosConcluidos(),
-   "average_assessment_score",a.nota(),"weekly_study_hours",a.horasSemanais(),"rest_knowledge_score",a.conhecimentoRest(),"database_knowledge_score",a.conhecimentoBanco()));
+  return classificacao.executar(id,a.experienciaMeses(),a.nota(),a.horasSemanais(),a.conhecimentoRest(),a.conhecimentoBanco());
  }
  @PostMapping("/alunos/{id}/recomendacao")
  public JsonNode recomendar(@PathVariable Long id,@Valid @RequestBody Pergunta p){

@@ -1,6 +1,6 @@
 const {chromium}=require('../frontend/node_modules/@playwright/test');
 const fs=require('fs');
-const config=Object.fromEntries(fs.readFileSync('.env.af','utf8').split(/\r?\n/).filter(x=>x.includes('=')).map(x=>{const i=x.indexOf('=');return[x.slice(0,i),x.slice(i+1)]}));
+const config={AF_ADMIN_PASSWORD:process.env.AF_ADMIN_PASSWORD||'af-demo-champam-2026'};
 (async()=>{
  const browser=await chromium.launch({headless:true});
  try{
@@ -11,7 +11,7 @@ const config=Object.fromEntries(fs.readFileSync('.env.af','utf8').split(/\r?\n/)
   await page.locator('#password').fill(config.AF_ADMIN_PASSWORD);
   await page.getByRole('button',{name:'Consultar alunos',exact:true}).click();
   await page.waitForFunction(()=>document.querySelector('#students').textContent.includes('Ana AF'));
-  await page.getByRole('button',{name:'Consultar catálogo',exact:true}).click();
+  await page.getByRole('button',{name:'Consultar catÃ¡logo',exact:true}).click();
   await page.waitForFunction(()=>document.querySelector('#catalog').textContent.includes('JAVA-01'));
   await page.getByRole('button',{name:'Classificar perfil',exact:true}).click();
   await page.waitForFunction(()=>document.querySelector('#prediction').textContent.includes('probabilities'));
