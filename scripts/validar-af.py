@@ -1,4 +1,4 @@
-"""IntegraÃ§Ã£o real por HTTP e interrupÃ§Ã£o de containers. NÃ£o usa mocks."""
+"""Integração real por HTTP e interrupção de containers. Não usa mocks."""
 import os,json,time,subprocess,asyncio
 from pathlib import Path
 import httpx,aiohttp,base64
@@ -30,26 +30,26 @@ assert httpx.get(base+'/api/alunos').status_code==401
 assert httpx.get(base+'/api/alunos/2',auth=('aluno1',config['AF_ALUNO1_PASSWORD'])).status_code==403
 assert httpx.get(base+'/api/alunos/1',auth=('aluno1',config['AF_ALUNO1_PASSWORD'])).status_code==200
 assert client.post('/api/af/alunos/1/agente',json={'pergunta':'Java REST','perfil':'iniciante','autorizaConsulta':False}).status_code==403
-# Preservar a regra original da AC1 e validar 1203 pontos apÃ³s promoÃ§Ã£o.
+# Preservar a regra original da AC1 e validar 1203 pontos após promoção.
 for i in range(12):
  r=client.post('/api/alunos/1/conclusoes',json={'codigoCurso':f'AF-{i}','media':8});r.raise_for_status()
 aluno=client.get('/api/alunos/1').json();assert aluno['plano']=='PREMIUM' and aluno['moedas']==3 and aluno['vouchers']==1
-# API ML e worker parados: o Core ainda aceita o pedido e a fila retÃ©m a mensagem.
+# API ML e worker parados: o Core ainda aceita o pedido e a fila retém a mensagem.
 compose('stop','ml-worker-af','ml-af')
 r=client.post('/api/af/treinamentos');assert r.status_code==202;job=r.json();time.sleep(8)
 queued=wait(job['consulta'],lambda v:state(v)=='queued')
-# API retorna, consumidor continua parado: pedido nÃ£o conclui antecipadamente.
+# API retorna, consumidor continua parado: pedido não conclui antecipadamente.
 compose('start','ml-af');time.sleep(3);assert state(client.get(job['consulta']).json())=='queued'
 compose('start','ml-worker-af');finished=wait(job['consulta'],lambda v:state(v)=='completed',240)
 features={'experienciaMeses':12,'nota':80,'horasSemanais':6,'conhecimentoRest':70,'conhecimentoBanco':80}
 result=client.post('/api/af/alunos/1/classificacao',json=features);result.raise_for_status()
-# Broker parado: o registro persiste sem confirmaÃ§Ã£o de publicaÃ§Ã£o; retoma depois.
+# Broker parado: o registro persiste sem confirmação de publicação; retoma depois.
 compose('stop','rabbitmq-af');r=client.post('/api/af/treinamentos');assert r.status_code==202;job2=r.json();time.sleep(4);assert state(client.get(job2['consulta']).json())=='received'
 compose('start','rabbitmq-af');finished2=wait(job2['consulta'],lambda v:state(v)=='completed',240)
 report={'aluno_promovido':aluno,'job_ml_offline':job,'estado_em_fila':queued,'conclusao':finished,'job_broker_offline':job2,'conclusao_apos_retomada':finished2,'classificacao':result.json(),'seguranca':'401 anonimo, 403 outro aluno e agente sem consentimento, 200 proprio aluno'}
 (OUT/'integracao.json').write_text(json.dumps(report,ensure_ascii=False,indent=2))
 # Protocolo fixo: 3 rajadas iniciais registradas, 30 s de aquecimento,
-# depois 60 s de carga sustentada. NÃ£o descartar rajadas lentas do relatÃ³rio.
+# depois 60 s de carga sustentada. Não descartar rajadas lentas do relatório.
 async def measure():
  authorization='Basic '+base64.b64encode(('champam:'+config['AF_ADMIN_PASSWORD']).encode()).decode()
  async with aiohttp.ClientSession(headers={**headers,'Authorization':authorization},timeout=aiohttp.ClientTimeout(total=15),connector=aiohttp.TCPConnector(limit=350)) as load_client:

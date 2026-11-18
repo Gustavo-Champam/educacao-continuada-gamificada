@@ -30,10 +30,13 @@ jobs:
         with: {node-version: '22'}
       - name: Verificar interface AF em navegador real
         if: always()
+        timeout-minutes: 5
+        env:
+          AF_BROWSER_CHANNEL: chrome
         run: |
           cd frontend
           npm ci
-          npx playwright install --with-deps chromium
+          google-chrome --version
           cd ..
           node scripts/verificar-af-ui.cjs
       - name: Registrar containers e logs
