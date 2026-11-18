@@ -1,3 +1,5 @@
+> **AF v3 - adequação em andamento:** a orientação atual exige Spring AI, gateway, execução integral por `docker compose up --build`, vídeo de 20 minutos no YouTube não listado e contribuição individual por branch/PR/revisão. A versão experimental anterior ainda não comprova esses critérios. Veja a [divisão dos requisitos e papéis](documentacao/af/DIVISAO_AF_V3.md). Os resultados de 16/11/2026 referem-se à stack anterior.
+
 > **Evolução AF:** a implementação está na branch `af/evolucao-ia-local`. Consulte [relatório e roteiro](documentacao/af/RELATORIO_AF.md), [execução](documentacao/af/EXECUCAO.md) e [resultados verificados](documentacao/af/STATUS.md). A documentação abaixo preserva o histórico da AC1.
 
 # Evolução AF com IA local
