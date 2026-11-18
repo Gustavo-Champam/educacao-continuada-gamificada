@@ -1,0 +1,56 @@
+name: AF - integracao e carga reais
+on:
+  push:
+    branches: ['af/v3-adequacao-entrega', 'feat/af-champam-rf02-rf05']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  af:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Testar ML e worker
+        run: |
+          pip install -r ml/requirements.txt
+          python -m unittest discover -s ml -p "test_*.py" -v
+      - name: Preparar cliente HTTP
+        run: |
+          pip install httpx==0.28.1 aiohttp==3.14.5
+      - name: Construir e subir PostgreSQL Core ML e RabbitMQ
+        run: |
+          docker compose up --build > /tmp/af-compose.log 2>&1 &
+      - name: Verificar integracao seguranca falhas e carga
+        run: python scripts/validar-af.py
+      - uses: actions/setup-node@v4
+        if: always()
+        with: {node-version: '22'}
+      - name: Verificar interface AF em navegador real
+        if: always()
+        timeout-minutes: 5
+        env:
+          AF_BROWSER_CHANNEL: chrome
+        run: |
+          cd frontend
+          npm ci
+          google-chrome --version
+          cd ..
+          node scripts/verificar-af-ui.cjs
+      - name: Registrar containers e logs
+        if: always()
+        run: |
+          mkdir -p evidencias/af-ci
+          docker compose ps -a > evidencias/af-ci/containers.txt
+          docker compose logs --no-color > evidencias/af-ci/containers.log
+          git rev-parse HEAD > evidencias/af-ci/commit.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: af-integracao-real
+          path: evidencias/af-ci/
+      - name: Encerrar
+        if: always()
+        run: docker compose down

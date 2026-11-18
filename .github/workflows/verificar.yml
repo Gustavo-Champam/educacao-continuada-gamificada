@@ -66,14 +66,14 @@ jobs:
         with:
           node-version: '22'
       - name: Subir Spring Vue PostgreSQL pgAdmin e H2 em containers
-        run: docker compose --profile demonstracao up --build -d
+        run: docker compose -f compose.ac1.yaml --profile demonstracao up --build -d
       - name: Aceite HTTP PostgreSQL e H2
         run: |
           python3 scripts/verificar-http.py http://localhost:8080 evidencias/execucao/docker-postgres.json
           python3 scripts/verificar-http.py http://localhost:8081 evidencias/execucao/docker-h2.json
           curl --fail --max-time 10 --retry 24 --retry-all-errors --retry-delay 5 http://localhost:5050/misc/ping
-          docker compose ps -a > evidencias/execucao/docker-ps.txt
-          docker compose exec -T postgres psql -U educacao -d educacao -c 'SELECT * FROM alunos; SELECT * FROM recompensas_premium;' > evidencias/execucao/docker-postgres-sql.txt
+          docker compose -f compose.ac1.yaml ps -a > evidencias/execucao/docker-ps.txt
+          docker compose -f compose.ac1.yaml exec -T postgres psql -U educacao -d educacao -c 'SELECT * FROM alunos; SELECT * FROM recompensas_premium;' > evidencias/execucao/docker-postgres-sql.txt
       - name: Testar interface Vue com navegador real
         working-directory: frontend
         run: |
@@ -84,7 +84,7 @@ jobs:
         if: always()
         run: |
           mkdir -p evidencias/execucao
-          docker compose --profile demonstracao logs --no-color > evidencias/execucao/docker.log
+          docker compose -f compose.ac1.yaml --profile demonstracao logs --no-color > evidencias/execucao/docker.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -95,4 +95,4 @@ jobs:
             frontend/test-results/
       - name: Encerrar containers
         if: always()
-        run: docker compose --profile demonstracao down
+        run: docker compose -f compose.ac1.yaml --profile demonstracao down

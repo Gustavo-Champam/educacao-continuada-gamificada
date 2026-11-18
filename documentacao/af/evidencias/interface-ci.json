@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "checks": [
+    "consulta alunos",
+    "catalogo",
+    "classificacao real",
+    "agente sem consentimento: 403",
+    "sem erros JavaScript"
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "requisicoes": 70179,
+  "p95_segundos": 0.3540726460000201,
+  "erros": 0,
+  "status_erros": [],
+  "criterio_atendido": true,
+  "partida_rajadas": [
+    {
+      "onda": 1,
+      "requisicoes": 300,
+      "p95_segundos": 0.9903179400000113,
+      "erros": 0,
+      "status_erros": [],
+      "criterio_atendido": true
+    },
+    {
+      "onda": 2,
+      "requisicoes": 300,
+      "p95_segundos": 0.6976493049999988,
+      "erros": 0,
+      "status_erros": [],
+      "criterio_atendido": true
+    },
+    {
+      "onda": 3,
+      "requisicoes": 300,
+      "p95_segundos": 0.6027950779999856,
+      "erros": 0,
+      "status_erros": [],
+      "criterio_atendido": true
+    }
+  ],
+  "aquecimento": {
+    "requisicoes": 22716,
+    "p95_segundos": 0.7424200320000125,
+    "erros": 0,
+    "status_erros": [],
+    "criterio_atendido": true
+  },
+  "gerador": "aiohttp 3.14.5, 300 usuarios em loop fechado, 2 alunos e entradas variadas",
+  "usuarios_simultaneos": 300,
+  "duracao_medida_segundos": 60,
+  "aquecimento_segundos": 30,
+  "observacao": "Rajadas iniciais e aquecimento reportados separadamente; criterio principal avalia os 60 s seguintes. Nao garante latencia de partida fria.",
+  "ambiente": "GitHub Actions ubuntu-24.04, Docker, rede local do runner; gerador e servicos no mesmo host"
+}

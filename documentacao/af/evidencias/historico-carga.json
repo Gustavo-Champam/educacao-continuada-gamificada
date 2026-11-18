@@ -1,0 +1,205 @@
+[
+  {
+    "commit": "2cea430",
+    "run_id": 43694052661,
+    "resultado": {
+      "usuarios_simultaneos": 300,
+      "ondas": 3,
+      "requisicoes": 900,
+      "aquecimentos": 20,
+      "p95_segundos": 3.10038293300002,
+      "erros": 2,
+      "status_erros": [
+        503,
+        503
+      ],
+      "criterio_atendido": false,
+      "ambiente": "GitHub Actions ubuntu-24.04, Docker, rede local do runner; teste de rajadas, nao carga sustentada"
+    }
+  },
+  {
+    "commit": "3151953",
+    "run_id": 43869242036,
+    "resultado": {
+      "usuarios_simultaneos": 300,
+      "ondas": 3,
+      "requisicoes": 900,
+      "aquecimentos": 20,
+      "p95_segundos": 3.11169111800001,
+      "erros": 0,
+      "status_erros": [],
+      "criterio_atendido": false,
+      "ambiente": "GitHub Actions ubuntu-24.04, Docker, rede local do runner; teste de rajadas, nao carga sustentada"
+    }
+  },
+  {
+    "commit": "3deabe7",
+    "run_id": 43869686897,
+    "resultado": {
+      "gerador": "httpx AsyncClient, barreira asyncio; versao anterior usava 300 threads",
+      "usuarios_simultaneos": 300,
+      "ondas": 3,
+      "requisicoes": 900,
+      "aquecimentos": 20,
+      "p95_segundos": 3.4233732249999775,
+      "erros": 0,
+      "status_erros": [],
+      "criterio_atendido": false,
+      "ambiente": "GitHub Actions ubuntu-24.04, Docker, rede local do runner; teste de rajadas, nao carga sustentada"
+    }
+  },
+  {
+    "commit": "47787a7",
+    "run_id": 43870190103,
+    "resultado": {
+      "gerador": "httpx AsyncClient, barreira asyncio; versao anterior usava 300 threads",
+      "usuarios_simultaneos": 300,
+      "ondas": 3,
+      "requisicoes": 900,
+      "aquecimentos": 20,
+      "p95_segundos": 4.210763479999997,
+      "erros": 0,
+      "status_erros": [],
+      "criterio_atendido": false,
+      "ambiente": "GitHub Actions ubuntu-24.04, Docker, rede local do runner; teste de rajadas, nao carga sustentada"
+    }
+  },
+  {
+    "commit": "b3b1fbc",
+    "run_id": 43870856882,
+    "resultado": {
+      "gerador": "httpx AsyncClient, barreira asyncio; versao anterior usava 300 threads",
+      "usuarios_simultaneos": 300,
+      "ondas": 3,
+      "requisicoes": 900,
+      "aquecimentos": 320,
+      "ondas_detalhadas": [
+        {
+          "onda": 0,
+          "aquecimento": true,
+          "p95_segundos": 2.1670239230000163,
+          "erros": 0
+        },
+        {
+          "onda": 1,
+          "aquecimento": false,
+          "p95_segundos": 4.338179413000006,
+          "erros": 1
+        },
+        {
+          "onda": 2,
+          "aquecimento": false,
+          "p95_segundos": 1.2006105760000025,
+          "erros": 0
+        },
+        {
+          "onda": 3,
+          "aquecimento": false,
+          "p95_segundos": 1.3493212969999888,
+          "erros": 0
+        }
+      ],
+      "observacao": "20 consultas sequenciais e 1 onda de 300 para aquecer JVM e conexoes; primeira onda reportada separadamente",
+      "p95_segundos": 3.6427622729999882,
+      "erros": 1,
+      "status_erros": [
+        503
+      ],
+      "criterio_atendido": false,
+      "ambiente": "GitHub Actions ubuntu-24.04, Docker, rede local do runner; teste de rajadas, nao carga sustentada"
+    }
+  },
+  {
+    "commit": "9ecc3e8",
+    "run_id": 43871299807,
+    "resultado": {
+      "gerador": "httpx AsyncClient, barreira asyncio; versao anterior usava 300 threads",
+      "usuarios_simultaneos": 300,
+      "ondas": 3,
+      "requisicoes": 900,
+      "aquecimentos": 320,
+      "ondas_detalhadas": [
+        {
+          "onda": 0,
+          "aquecimento": true,
+          "p95_segundos": 2.280430206999995,
+          "erros": 0
+        },
+        {
+          "onda": 1,
+          "aquecimento": false,
+          "p95_segundos": 4.668401316000001,
+          "erros": 0
+        },
+        {
+          "onda": 2,
+          "aquecimento": false,
+          "p95_segundos": 1.7572335219999786,
+          "erros": 0
+        },
+        {
+          "onda": 3,
+          "aquecimento": false,
+          "p95_segundos": 1.618355935000011,
+          "erros": 0
+        }
+      ],
+      "observacao": "20 consultas sequenciais e 1 onda de 300 para aquecer JVM e conexoes; primeira onda reportada separadamente",
+      "p95_segundos": 3.742302990000013,
+      "erros": 0,
+      "status_erros": [],
+      "criterio_atendido": false,
+      "ambiente": "GitHub Actions ubuntu-24.04, Docker, rede local do runner; teste de rajadas, nao carga sustentada"
+    }
+  },
+  {
+    "commit": "00a23d2",
+    "run_id": 43947051084,
+    "resultado": {
+      "requisicoes": 17689,
+      "p95_segundos": 3.019947335999973,
+      "erros": 0,
+      "status_erros": [],
+      "criterio_atendido": false,
+      "partida_rajadas": [
+        {
+          "onda": 1,
+          "requisicoes": 300,
+          "p95_segundos": 2.4705411139999853,
+          "erros": 0,
+          "status_erros": [],
+          "criterio_atendido": false
+        },
+        {
+          "onda": 2,
+          "requisicoes": 300,
+          "p95_segundos": 4.552746415999991,
+          "erros": 0,
+          "status_erros": [],
+          "criterio_atendido": false
+        },
+        {
+          "onda": 3,
+          "requisicoes": 300,
+          "p95_segundos": 1.1875530679999997,
+          "erros": 0,
+          "status_erros": [],
+          "criterio_atendido": true
+        }
+      ],
+      "aquecimento": {
+        "requisicoes": 7404,
+        "p95_segundos": 3.7313887189999946,
+        "erros": 0,
+        "status_erros": [],
+        "criterio_atendido": false
+      },
+      "gerador": "httpx AsyncClient, 300 usuarios em loop fechado, 2 alunos e entradas variadas",
+      "usuarios_simultaneos": 300,
+      "duracao_medida_segundos": 60,
+      "aquecimento_segundos": 30,
+      "observacao": "Rajadas iniciais e aquecimento reportados separadamente; criterio principal avalia os 60 s seguintes. Nao garante latencia de partida fria.",
+      "ambiente": "GitHub Actions ubuntu-24.04, Docker, rede local do runner; gerador e servicos no mesmo host"
+    }
+  }
+]

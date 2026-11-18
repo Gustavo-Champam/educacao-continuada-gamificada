@@ -1,64 +1,83 @@
 services:
-  postgres:
+  postgres-af:
     image: postgres:17-alpine
     environment:
-      POSTGRES_DB: educacao
+      POSTGRES_DB: educacao_af
       POSTGRES_USER: educacao
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-educacao_local}
-    ports:
-      - "127.0.0.1:5432:5432"
-    volumes:
-      - postgres_dados:/var/lib/postgresql/data
+      POSTGRES_PASSWORD: ${AF_DB_PASSWORD:-af_demo_database}
+    volumes: ['postgres_af:/var/lib/postgresql/data']
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U educacao -d educacao"]
+      test: ['CMD-SHELL', 'pg_isready -U educacao -d educacao_af']
       interval: 5s
+      timeout: 3s
+      retries: 20
+  rabbitmq-af:
+    image: rabbitmq:3.13-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: gamification
+      RABBITMQ_DEFAULT_PASS: ${AF_RABBIT_PASSWORD:-af_demo_rabbit}
+    volumes: ['rabbit_af:/var/lib/rabbitmq']
+    healthcheck:
+      test: ['CMD', 'rabbitmq-diagnostics', '-q', 'ping']
+      interval: 10s
       timeout: 5s
-      retries: 12
-
-  api:
-    image: educacao-gamificada-api:local
+      retries: 20
+  core-af:
     build: .
     environment:
-      SPRING_PROFILES_ACTIVE: postgres
-      DB_URL: jdbc:postgresql://postgres:5432/educacao
+      SPRING_PROFILES_ACTIVE: af,postgres
+      SERVER_PORT: 8080
+      DB_URL: jdbc:postgresql://postgres-af:5432/educacao_af
       DB_USER: educacao
-      DB_PASSWORD: ${POSTGRES_PASSWORD:-educacao_local}
-    ports:
-      - "127.0.0.1:8080:8080"
+      DB_PASSWORD: ${AF_DB_PASSWORD:-af_demo_database}
+      AF_ADMIN_PASSWORD: ${AF_ADMIN_PASSWORD:-af-demo-champam-2026}
+      AF_ALUNO1_PASSWORD: ${AF_ALUNO1_PASSWORD:-af-demo-aluno1-2026}
+      AF_ALUNO2_PASSWORD: ${AF_ALUNO2_PASSWORD:-af-demo-aluno2-2026}
+      AF_ML_URL: http://ml-af:8001
+      AF_ORIENTACAO_URL: ${AF_ORIENTACAO_URL:-http://orientacao-af:8080}
+      AF_EVALUATION_URL: ${AF_EVALUATION_URL:-http://evaluation-af:8013}
+      AF_SERVICE_TOKEN: ${AF_SERVICE_TOKEN:-af-demo-internal-2026}
+      RABBITMQ_HOST: rabbitmq-af
+      RABBITMQ_USER: gamification
+      RABBITMQ_PASS: ${AF_RABBIT_PASSWORD:-af_demo_rabbit}
     depends_on:
-      postgres:
-        condition: service_healthy
-
-  frontend:
-    build: ./frontend
-    ports:
-      - "127.0.0.1:5173:80"
-    depends_on:
-      - api
-
-  pgadmin:
-    image: dpage/pgadmin4:9
+      postgres-af: {condition: service_healthy}
+      rabbitmq-af: {condition: service_healthy}
+  ml-af:
+    build: ./ml
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@educacao.com}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin_local}
-    ports:
-      - "127.0.0.1:5050:80"
-    volumes:
-      - pgadmin_dados:/var/lib/pgadmin
-      - ./docker/pgadmin-servers.json:/pgadmin4/servers.json:ro
+      ML_AUTO_TRAIN: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    volumes: ['ml_af:/data']
     depends_on:
-      postgres:
-        condition: service_healthy
-
-  h2:
-    profiles: ["demonstracao"]
-    image: educacao-gamificada-api:local
-    build: .
+      ml-init: {condition: service_completed_successfully}
+  ml-worker-af:
+    build: {context: ./ml, dockerfile: Dockerfile.worker}
     environment:
-      SPRING_PROFILES_ACTIVE: h2
-    ports:
-      - "127.0.0.1:8081:8080"
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      RABBITMQ_HOST: rabbitmq-af
+      RABBITMQ_USER: gamification
+      RABBITMQ_PASS: ${AF_RABBIT_PASSWORD:-af_demo_rabbit}
+    volumes: ['ml_af:/data']
+    depends_on:
+      ml-init: {condition: service_completed_successfully}
+      rabbitmq-af: {condition: service_healthy}
+  ml-init:
+    build: ./ml
+    environment:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    volumes: ['ml_af:/data']
+    command: ['python', '-c', 'from training import MODEL, METADATA, train; train() if not (MODEL.exists() and METADATA.exists()) else None']
+  gateway:
+    image: nginx:1.28-alpine
+    ports: ['127.0.0.1:8085:80']
+    volumes: ['./docker/gateway-af.conf:/etc/nginx/conf.d/default.conf:ro']
+    depends_on: [core-af]
 
 volumes:
-  postgres_dados:
-  pgadmin_dados:
+  postgres_af:
+  rabbit_af:
+  ml_af:

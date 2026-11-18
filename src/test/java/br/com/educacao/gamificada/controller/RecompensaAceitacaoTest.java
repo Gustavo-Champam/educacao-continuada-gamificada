@@ -1,5 +1,6 @@
 package br.com.educacao.gamificada.controller;
 
+import br.com.educacao.gamificada.recompensa.dto.RecompensaResponse;
 import br.com.educacao.gamificada.dto.*;
 import br.com.educacao.gamificada.event.AlunoPromovidoEvent;
 import br.com.educacao.gamificada.service.AlunoService;
