@@ -13,4 +13,11 @@ class OrientacaoTest {
  @Test void ausenciaDeFontesNaoChamaModelo(){var g=mock(OrientarAluno.Gerador.class);var r=new OrientarAluno(p->List.of(),g).recomendar("astronomia","iniciante");assertFalse(r.geracao());assertFalse(r.efeitosExternos());verifyNoInteractions(g);}
  @Test void agenteUsaProgressoSemEscrita(){var f=new OrientarAluno.Fonte("DOC-01","Java","Aprenda Java");var p=new OrientarAluno.Progresso("BASICO",11);var a=new OrientarAluno(q->List.of(f),(q,n,fs,pr)->{assertEquals(p,pr);return "Java";});var r=a.acompanhar("Java","iniciante",true,p);assertEquals(1,r.progresso().cursosRestantes());assertFalse(r.efeitosExternos());assertEquals(List.of("consultar_progresso","buscar_documentos","gerar_orientacao"),r.ferramentas());assertEquals(0,new OrientarAluno.Progresso("PREMIUM",13).cursosRestantes());}
  @Test void springAiValidaFontesESaida(){var m=mock(ChatModel.class);var g=new GeradorSpringAi(m,new ObjectMapper());var fontes=List.of(new OrientarAluno.Fonte("DOC-01","Java","Aprenda Java"));when(m.call(any(Prompt.class))).thenReturn(new ChatResponse(List.of(new Generation(new AssistantMessage("{\"orientacao\":\"Estude Java\",\"fontes\":[\"DOC-01\"]}")))));assertTrue(g.gerar("Java","iniciante",fontes,new OrientarAluno.Progresso("BASICO",3)).contains("DOC-01"));for(String invalido:List.of("invalido","{}","{\"orientacao\":\"Java\",\"fontes\":[\"DOC-999\"]}")){when(m.call(any(Prompt.class))).thenReturn(new ChatResponse(List.of(new Generation(new AssistantMessage(invalido)))));assertThrows(IllegalStateException.class,()->g.gerar("Java","iniciante",fontes,null));}when(m.call(any(Prompt.class))).thenThrow(new RuntimeException("offline"));assertThrows(IllegalStateException.class,()->g.gerar("Java","iniciante",fontes,null));}
+ @Test void recusaAtribuicaoInstitucionalMesmoComFonteValida(){
+  var modelo=mock(ChatModel.class);
+  var gerador=new GeradorSpringAi(modelo,new ObjectMapper());
+  var fontes=List.of(new OrientarAluno.Fonte("DOC-01","Java","Trilha didática Java"));
+  when(modelo.call(any(Prompt.class))).thenReturn(new ChatResponse(List.of(new Generation(new AssistantMessage("{\"orientacao\":\"Trilha disponível na FACENS\",\"fontes\":[\"DOC-01\"]}")))));
+  assertThrows(IllegalStateException.class,()->gerador.gerar("Java","iniciante",fontes,null));
+ }
 }

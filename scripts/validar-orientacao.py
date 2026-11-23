@@ -15,6 +15,7 @@ while time.monotonic()<prazo:
  time.sleep(5)
 assert r.status_code==200,r.text
 recomendacao=r.json();assert recomendacao['geracao'] and 'DOC-01' in recomendacao['resposta']
+assert 'facens' not in recomendacao['resposta'].lower() and 'trilhas fictícias' in recomendacao['resposta']
 sem=c.post(caminho+'/recomendacao',json=dict(p,pergunta='astronomia telescopios'));assert sem.status_code==200 and not sem.json()['geracao']
 r=c.post(caminho+'/agente',json=dict(p,autorizaConsulta=True));assert r.status_code==200,r.text
 agente=r.json();assert agente['progresso']['cursosConcluidos']==0 and not agente['efeitosExternos']
