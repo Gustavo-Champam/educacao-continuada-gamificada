@@ -50,9 +50,9 @@ public class OrientacaoController {
  }
  @PostMapping("/alunos/{id}/agente")
  public JsonNode agente(@PathVariable Long id,@Valid @RequestBody Pergunta p){
-  alunos.buscar(id);
   if(!p.autorizaConsulta())throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Autorize a consulta antes de executar o agente.");
-  return post(orientacao,"/agente",Map.of("pergunta",p.pergunta(),"perfil",p.perfil(),"autoriza_consulta",true));
+  var aluno=alunos.buscar(id);
+  return post(orientacao,"/agente",Map.of("pergunta",p.pergunta(),"perfil",p.perfil(),"autoriza_consulta",true,"progresso",Map.of("plano",aluno.plano().name(),"cursosConcluidos",aluno.cursosConcluidos())));
  }
  private JsonNode post(RestClient client,String path,Object body){
   try{return client.post().uri(path).header("X-AF-Service",serviceToken).body(body).retrieve().body(JsonNode.class);}

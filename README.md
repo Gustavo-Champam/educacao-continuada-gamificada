@@ -1,3 +1,30 @@
+> **Branch Camargo RF03/RF04, reconstruída em 23/11/2026.** Serviço Spring AI e Ollama integrados ao Compose. Os resultados da cópia local anterior não validam esta reconstrução: conferir os checks do PR. Consulte [entrega Camargo](documentacao/af/ENTREGA_CAMARGO.md). As seções históricas abaixo sobre orientação ainda pendente descrevem a base de Champam.
+
+## Orientação RF03/RF04
+
+O Core autentica, autoriza o acesso ao aluno e consulta o progresso somente após consentimento. O serviço Spring AI recupera documentos didáticos por relevância lexical e gera a resposta no Ollama local. Fontes inexistentes são recusadas. Não há escrita pelo agente nem execução de ferramentas arbitrárias. A base não contém documentos oficiais da FACENS.
+
+```mermaid
+flowchart TB
+  U["Navegador"] --> G["Gateway Nginx"]
+  subgraph Stack["Docker Compose"]
+    G --> C["Core Spring Boot"]
+    C --> P[("PostgreSQL")]
+    C -->|REST e token| O["Orientação Spring AI"]
+    O --> D["Documentos versionados"]
+    O -->|HTTP| L["Ollama Qwen 2.5 1.5B"]
+    C -->|REST| M["FastAPI ML"]
+    C -->|AMQP| R["RabbitMQ"]
+    R --> W["Worker treinamento"]
+  end
+```
+
+`OrientarAluno` depende das portas `Documentos` e `Gerador`; os adaptadores são `DocumentosLocais` e `GeradorSpringAi`. O agente é um fluxo controlado de consulta e orientação, sem acompanhamento autônomo em segundo plano.
+
+ADR-002: isolar orientação do Core para manter cadastros disponíveis durante falhas de IA. Recuperação lexical atende à pequena base didática sem banco vetorial; perde qualidade para sinônimos. Geração local evita API paga e exige memória/tempo de CPU. Downloads iniciais exigem internet. Autenticação é didática; produção requer identidade real, TLS e gestão de segredos.
+
+---
+
 # EducaTrilha AI — evolução da Educação Continuada Gamificada
 
 **AF v3 — entrega individual de RF02 e RF05 em revisão.** Spring Boot e FastAPI estão implementados. RF03/RF04, Spring AI e o modelo generativo no Docker ainda precisam ser integrados por Camargo. Este estado não é apresentado como AF completa.

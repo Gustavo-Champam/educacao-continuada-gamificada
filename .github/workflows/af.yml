@@ -1,7 +1,8 @@
 name: AF - integracao e carga reais
 on:
   push:
-    branches: ['af/v3-adequacao-entrega', 'feat/af-champam-rf02-rf05']
+    branches: ['af/v3-adequacao-entrega', 'feat/af-champam-rf02-rf05', 'feat/af-camargo-rf03-rf04']
+  pull_request:
   workflow_dispatch:
 permissions:
   contents: read
@@ -25,6 +26,8 @@ jobs:
           docker compose up --build > /tmp/af-compose.log 2>&1 &
       - name: Verificar integracao seguranca falhas e carga
         run: python scripts/validar-af.py
+      - name: Validar Spring AI RAG e agente com modelo real
+        run: python scripts/validar-orientacao.py
       - uses: actions/setup-node@v4
         if: always()
         with: {node-version: '22'}
