@@ -8,20 +8,20 @@
 <section class="card"><h2>3 · Treinamento assíncrono</h2><p class="muted">Disponível para champam e camargo. O pedido é salvo antes da publicação na fila.</p><button onclick="treinar()">Solicitar treinamento</button><label>ID do treinamento</label><input id="job"><button onclick="consultarTreino()">Atualizar andamento</button><pre id="training">Nenhum treinamento solicitado.</pre></section>
 </div>
 <script>
-const el=id=>document.getElementById(id);let last=null;const num=id=>Number(el(id).value);const sid=()=>num('student');
+const el=id=>document.getElementById(id);let contexto=0;const num=id=>Number(el(id).value);const sid=()=>num('student');
 function show(id,data){el(id).textContent=typeof data==='string'?data:JSON.stringify(data,null,2)}
 async function api(path,body){const headers={'Authorization':'Basic '+btoa(el('user').value+':'+el('password').value),'X-AF-Request':'1'};if(body!==undefined)headers['Content-Type']='application/json';el('notice').textContent='Processando solicitação…';const r=await fetch(path,{method:body===undefined?'GET':'POST',headers,body:body===undefined?undefined:JSON.stringify(body)});const text=await r.text();let data;try{data=JSON.parse(text)}catch{data={detail:text}}if(!r.ok)throw Error('HTTP '+r.status+': '+(data.detail||data.message||'Confira suas permissões e os serviços.'));el('notice').textContent='Solicitação concluída.';return data}
 function action(fn){return async(...args)=>{document.querySelectorAll('button').forEach(b=>b.disabled=true);try{await fn(...args)}catch(e){el('notice').textContent=e.message}finally{document.querySelectorAll('button').forEach(b=>b.disabled=false)}}}
 const listar=action(async()=>show('students',await api(el('user').value.startsWith('aluno')?'/api/alunos/'+el('user').value.slice(5):'/api/alunos')));
-const criarAluno=action(async()=>{const a=await api('/api/alunos',{nome:el('name').value});el('student').value=a.id;show('students',a)});
+const criarAluno=action(async()=>{const a=await api('/api/alunos',{nome:el('name').value});el('student').value=a.id;limparOrientacao();show('students',a)});
 const concluir=action(async()=>show('students',await api('/api/alunos/'+sid()+'/conclusoes',{codigoCurso:el('course').value,media:num('grade')})));
 const classificar=action(async()=>{const r=await api('/api/af/alunos/'+sid()+'/classificacao',{experienciaMeses:num('months'),nota:num('score'),horasSemanais:num('hours'),conhecimentoRest:num('rest'),conhecimentoBanco:num('db')});show('prediction',r);el('profile').value=r.profile.toLowerCase()});
-const recomendar=action(async(agent)=>{const pergunta=el('question').value;const r=await api('/api/af/alunos/'+sid()+'/'+(agent?'agente':'recomendacao'),{pergunta,perfil:el('profile').value,autorizaConsulta:el('consent').checked});last={question:pergunta,...r};show('recommendation',r)});
+const recomendar=action(async(agent)=>{const versao=contexto;const pergunta=el('question').value;const r=await api('/api/af/alunos/'+sid()+'/'+(agent?'agente':'recomendacao'),{pergunta,perfil:el('profile').value,autorizaConsulta:el('consent').checked});if(versao===contexto)show('recommendation',r)});
 const cadastrarCurso=action(async()=>show('catalog',await api('/api/af/cursos',{codigo:el('catalogCode').value,nome:el('catalogName').value,descricao:el('catalogDescription').value})));
 const listarCursos=action(async()=>show('catalog',await api('/api/af/cursos')));
 const treinar=action(async()=>{const r=await api('/api/af/treinamentos',{});el('job').value=r.job_id;show('training',r)});
 const consultarTreino=action(async()=>show('training',await api('/api/af/treinamentos/'+encodeURIComponent(el('job').value))));
-const avaliar=action(async()=>{if(!last?.geracao)throw Error('Gere uma recomendação com fontes antes de avaliar.');const r=await api('/api/af/avaliacoes',{question:last.question,answer:last.resposta,contexts:last.fontes.map(f=>f.text),reference:el('reference').value});el('evaluation').value=r.id;show('evaluationResult',r)});
-const consultarAvaliacao=action(async()=>{const r=await api('/api/af/avaliacoes/'+encodeURIComponent(el('evaluation').value));show('evaluationResult',r);el('metrics').replaceChildren();for(const [name,value]of Object.entries(r.scores||{})){const d=document.createElement('p');d.textContent=name+': '+(Number.isFinite(value)?value.toFixed(3):'não calculado');const bar=document.createElement('div');bar.className='bar';const fill=document.createElement('span');fill.style.width=(Number.isFinite(value)?Math.max(0,Math.min(1,value))*100:0)+'%';bar.append(fill);d.append(bar);el('metrics').append(d)}});
-for(const campo of ['user','student'])el(campo).addEventListener('change',()=>{el('consent').checked=false;last=null;show('recommendation','Nova seleção: autorize novamente se desejar executar o agente.');});
+function limparOrientacao(){contexto++;el('consent').checked=false;show('recommendation','Nova seleção: autorize novamente se desejar executar o agente.');}
+for(const campo of ['user','student','password'])el(campo).addEventListener('input',limparOrientacao);
+el('consent').addEventListener('change',()=>{contexto++;if(!el('consent').checked)show('recommendation','Autorização removida.');});
 </script></html>
