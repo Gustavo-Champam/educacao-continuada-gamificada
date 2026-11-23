@@ -1,7 +1,10 @@
 """Aceite RF03/RF04 com Spring AI e Ollama reais no Compose."""
-import httpx,os,time,json,subprocess
+import httpx,time,json,subprocess
 from pathlib import Path
-c=httpx.Client(base_url='http://127.0.0.1:8085',auth=('camargo',os.getenv('AF_ADMIN_PASSWORD','af-demo-champam-2026')),headers={'X-AF-Request':'1'},timeout=125)
+# Reutiliza a configuração efetiva do Compose sem duplicar senhas de laboratório.
+configuracao=json.loads(subprocess.check_output(['docker','compose','config','--format','json'],text=True))
+credenciais=configuracao['services']['core-af']['environment']
+c=httpx.Client(base_url='http://127.0.0.1:8085',auth=('camargo',credenciais['AF_ADMIN_PASSWORD']),headers={'X-AF-Request':'1'},timeout=125)
 a=c.post('/api/alunos',json={'nome':'Aceite RF03 RF04'});a.raise_for_status();identificador=a.json()['id']
 caminho=f'/api/af/alunos/{identificador}'
 p={'pergunta':'Quero aprender Java e APIs REST','perfil':'iniciante','autorizaConsulta':False}
@@ -20,7 +23,7 @@ sem=c.post(caminho+'/recomendacao',json=dict(p,pergunta='astronomia telescopios'
 r=c.post(caminho+'/agente',json=dict(p,autorizaConsulta=True));assert r.status_code==200,r.text
 agente=r.json();assert agente['progresso']['cursosConcluidos']==0 and not agente['efeitosExternos']
 assert c.post(caminho+'/agente',json=p).status_code==403
-outro=httpx.Client(base_url='http://127.0.0.1:8085',auth=('aluno1',os.getenv('AF_ALUNO1_PASSWORD','af-demo-aluno1-2026')),headers={'X-AF-Request':'1'})
+outro=httpx.Client(base_url='http://127.0.0.1:8085',auth=('aluno1',credenciais['AF_ALUNO1_PASSWORD']),headers={'X-AF-Request':'1'})
 alheio=identificador if identificador!=1 else 2
 assert outro.post(f'/api/af/alunos/{alheio}/agente',json=dict(p,autorizaConsulta=True)).status_code==403
 subprocess.run(['docker','compose','stop','ollama-af'],check=True)
