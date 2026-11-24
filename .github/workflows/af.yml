@@ -21,18 +21,23 @@ jobs:
       - name: Preparar cliente HTTP
         run: |
           pip install httpx==0.28.1 aiohttp==3.14.5
-      - name: Construir e subir PostgreSQL Core ML e RabbitMQ
+      - name: Construir e iniciar os servicos da AF
+        timeout-minutes: 15
+        shell: bash
         run: |
-          docker compose up --build > /tmp/af-compose.log 2>&1 &
+          set -o pipefail
+          mkdir -p evidencias/af-ci
+          docker compose up --build -d 2>&1 | tee evidencias/af-ci/compose-build.log
       - name: Verificar integracao seguranca falhas e carga
+        id: integracao
         run: python scripts/validar-af.py
       - name: Validar Spring AI RAG e agente com modelo real
         run: python scripts/validar-orientacao.py
       - uses: actions/setup-node@v4
-        if: always()
+        if: ${{ !cancelled() && steps.integracao.outcome == 'success' }}
         with: {node-version: '22'}
       - name: Verificar interface AF em navegador real
-        if: always()
+        if: ${{ !cancelled() && steps.integracao.outcome == 'success' }}
         timeout-minutes: 5
         env:
           AF_BROWSER_CHANNEL: chrome

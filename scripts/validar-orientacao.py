@@ -8,6 +8,8 @@ c=httpx.Client(base_url='http://127.0.0.1:8085',auth=('camargo',credenciais['AF_
 a=c.post('/api/alunos',json={'nome':'Aceite RF03 RF04'});a.raise_for_status();identificador=a.json()['id']
 caminho=f'/api/af/alunos/{identificador}'
 p={'pergunta':'Quero aprender Java e APIs REST','perfil':'iniciante','autorizaConsulta':False}
+for invalido in [dict(p,pergunta='Oi'),dict(p,perfil='administrador')]:
+ assert c.post(caminho+'/recomendacao',json=invalido).status_code==400
 assert c.post(caminho+'/agente',json=p).status_code==403
 r=None
 prazo=time.monotonic()+900

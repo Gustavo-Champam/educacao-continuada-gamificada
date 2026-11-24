@@ -39,7 +39,8 @@ public class OrientacaoController {
  public record Avaliacao(@Min(0) @Max(120) double experienciaMeses,
   @Min(0) @Max(100) double nota, @Min(0) @Max(30) double horasSemanais,
   @Min(0) @Max(100) double conhecimentoRest, @Min(0) @Max(100) double conhecimentoBanco) {}
- public record Pergunta(@NotBlank @Size(max=1000) String pergunta, @NotBlank @Size(max=40) String perfil, boolean autorizaConsulta) {}
+ public record Pergunta(@NotBlank @Size(min=3,max=1000) String pergunta,
+   @NotBlank @Pattern(regexp="iniciante|intermediario|avancado") String perfil, boolean autorizaConsulta) {}
  @PostMapping("/alunos/{id}/classificacao")
  public JsonNode classificar(@PathVariable Long id,@Valid @RequestBody Avaliacao a){
   return classificacao.executar(id,a.experienciaMeses(),a.nota(),a.horasSemanais(),a.conhecimentoRest(),a.conhecimentoBanco());
