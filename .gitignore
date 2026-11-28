@@ -28,3 +28,13 @@ playwright-report/
 test-results/
 
 .run/
+
+# AF local
+/vendor/
+/runtime/
+.venv/
+**/__pycache__/
+**/.pytest_cache/
+.env.*
+!.env.example
+*.log

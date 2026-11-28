@@ -1,0 +1,35 @@
+{
+  "ambiente": "Windows; mesmos servicos locais ML e Core/H2; diagnostico, nao ensaio Docker",
+  "usuarios_por_onda": 300,
+  "ondas": 3,
+  "precisao": "p95 arredondado a 3 casas decimais",
+  "httpx_version": "0.28.1",
+  "aiohttp_version": "3.14.5",
+  "httpx": {
+    "ml_p95": [
+      2.515,
+      3.207,
+      2.149
+    ],
+    "core_p95": [
+      2.443,
+      4.057,
+      0.911
+    ],
+    "erros": 0
+  },
+  "aiohttp": {
+    "ml_p95": [
+      0.473,
+      0.401,
+      0.415
+    ],
+    "core_p95": [
+      0.82,
+      0.609,
+      0.854
+    ],
+    "erros": 0
+  },
+  "limite": "Clientes executados sequencialmente; diagnostico indica influencia do gerador, nao isola todos os efeitos de aquecimento. Validacao final repete Docker com protocolo explicito."
+}

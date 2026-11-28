@@ -2,6 +2,7 @@ package br.com.educacao.gamificada.service;
 
 import br.com.educacao.gamificada.domain.Aluno;
 import br.com.educacao.gamificada.domain.Plano;
+import br.com.educacao.gamificada.recompensa.dto.RecompensaResponse;
 import br.com.educacao.gamificada.dto.*;
 import br.com.educacao.gamificada.entity.AlunoEntity;
 import br.com.educacao.gamificada.entity.ConclusaoCursoEntity;

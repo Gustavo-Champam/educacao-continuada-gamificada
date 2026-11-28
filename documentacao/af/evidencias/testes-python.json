@@ -1,0 +1,28 @@
+{
+  "orientacao": {
+    "aprovados": 4,
+    "casos": [
+      {
+        "nome": "test_recuperacao_retorna_fonte_real",
+        "classe": "orientacao.tests.test_orientacao"
+      },
+      {
+        "nome": "test_sem_consentimento_nao_executa_modelo",
+        "classe": "orientacao.tests.test_orientacao"
+      },
+      {
+        "nome": "test_sem_configuracao_local_nao_inventa_resposta",
+        "classe": "orientacao.tests.test_orientacao"
+      },
+      {
+        "nome": "test_rejeita_pergunta_vazia",
+        "classe": "orientacao.tests.test_orientacao"
+      }
+    ]
+  },
+  "ml": {
+    "aprovados": 1,
+    "teste": "predicao equivalente ao pipeline realmente treinado e recarga apos novo treinamento"
+  },
+  "ambiente": "venv local, execucao real dos testes; geracao unitariamente simulada, geracao real comprovada separadamente"
+}

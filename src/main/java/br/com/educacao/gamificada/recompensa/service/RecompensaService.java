@@ -1,9 +1,11 @@
-package br.com.educacao.gamificada.service;
+package br.com.educacao.gamificada.recompensa.service;
+import br.com.educacao.gamificada.service.AlunoService;
 
 import br.com.educacao.gamificada.domain.Plano;
-import br.com.educacao.gamificada.dto.RecompensaResponse;
-import br.com.educacao.gamificada.entity.RecompensaEntity;
+import br.com.educacao.gamificada.recompensa.dto.RecompensaResponse;
+import br.com.educacao.gamificada.recompensa.entity.RecompensaEntity;
 import br.com.educacao.gamificada.event.AlunoPromovidoEvent;
+import br.com.educacao.gamificada.recompensa.repository.RecompensaRepository;
 import br.com.educacao.gamificada.repository.*;
 import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpStatus;

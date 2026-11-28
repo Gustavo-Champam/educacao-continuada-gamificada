@@ -1,0 +1,18 @@
+{
+  "id": "f932fe9d-acb1-4290-851e-d203284fa212",
+  "trace_id": 1,
+  "status": "completed",
+  "created_at": "2026-11-16T12:52:01.392573+00:00",
+  "metrics_requested": [
+    "faithfulness",
+    "answer_relevancy"
+  ],
+  "reference_supplied": false,
+  "scores": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.8624179651297251
+  },
+  "judge": "Qwen3-4B-GGUF local",
+  "embeddings": "paraphrase-multilingual-MiniLM-L12-v2 local",
+  "finished_at": "2026-11-16T12:52:43.994251+00:00"
+}

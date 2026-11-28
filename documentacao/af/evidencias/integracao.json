@@ -1,0 +1,49 @@
+{
+  "aluno_promovido": {
+    "id": 1,
+    "nome": "Ana AF",
+    "plano": "PREMIUM",
+    "cursosConcluidos": 12,
+    "vouchers": 1,
+    "moedas": 3
+  },
+  "job_ml_offline": {
+    "consulta": "/api/af/treinamentos/eb2a4ca3-de0c-47ca-ada8-c5978ef8f160",
+    "status": "received",
+    "job_id": "eb2a4ca3-de0c-47ca-ada8-c5978ef8f160"
+  },
+  "estado_em_fila": {
+    "id": "eb2a4ca3-de0c-47ca-ada8-c5978ef8f160",
+    "status": "queued",
+    "published": true,
+    "result_text": null
+  },
+  "conclusao": {
+    "id": "eb2a4ca3-de0c-47ca-ada8-c5978ef8f160",
+    "status": "completed",
+    "published": true,
+    "result_text": "{\"job_id\":\"eb2a4ca3-de0c-47ca-ada8-c5978ef8f160\",\"status\":\"completed\",\"metrics\":{\"job_id\":\"eb2a4ca3-de0c-47ca-ada8-c5978ef8f160\",\"version\":\"20261116T201847Z\",\"synthetic_data\":true,\"seed\":42,\"rows\":1500,\"splits\":{\"train\":1049,\"validation\":226,\"test\":225},\"features\":[\"programming_experience_months\",\"completed_courses\",\"average_assessment_score\",\"weekly_study_hours\",\"rest_knowledge_score\",\"database_knowledge_score\"],\"classes\":[\"AVANCADO\",\"INICIANTE\",\"INTERMEDIARIO\"],\"validation_accuracy\":0.9911504424778761,\"test_accuracy\":0.9733333333333334,\"test_macro_f1\":0.9733902323376008,\"confusion_matrix_labels\":[\"AVANCADO\",\"INICIANTE\",\"INTERMEDIARIO\"],\"confusion_matrix\":[[73,0,1],[0,74,2],[1,2,72]],\"classification_report\":{\"AVANCADO\":{\"precision\":0.9864864864864865,\"recall\":0.9864864864864865,\"f1-score\":0.9864864864864865,\"support\":74.0},\"INICIANTE\":{\"precision\":0.9736842105263158,\"recall\":0.9736842105263158,\"f1-score\":0.9736842105263158,\"support\":76.0},\"INTERMEDIARIO\":{\"precision\":0.96,\"recall\":0.96,\"f1-score\":0.96,\"support\":75.0},\"accuracy\":0.9733333333333334,\"macro avg\":{\"precision\":0.9733902323376008,\"recall\":0.9733902323376008,\"f1-score\":0.9733902323376008,\"support\":225.0},\"weighted avg\":{\"precision\":0.9733333333333334,\"recall\":0.9733333333333334,\"f1-score\":0.9733333333333334,\"support\":225.0}}}}"
+  },
+  "job_broker_offline": {
+    "consulta": "/api/af/treinamentos/60535bc6-5383-40ed-b3d3-c0cc7928f633",
+    "status": "received",
+    "job_id": "60535bc6-5383-40ed-b3d3-c0cc7928f633"
+  },
+  "conclusao_apos_retomada": {
+    "id": "60535bc6-5383-40ed-b3d3-c0cc7928f633",
+    "status": "completed",
+    "published": true,
+    "result_text": "{\"job_id\":\"60535bc6-5383-40ed-b3d3-c0cc7928f633\",\"status\":\"completed\",\"metrics\":{\"job_id\":\"60535bc6-5383-40ed-b3d3-c0cc7928f633\",\"version\":\"20261116T201903Z\",\"synthetic_data\":true,\"seed\":42,\"rows\":1500,\"splits\":{\"train\":1049,\"validation\":226,\"test\":225},\"features\":[\"programming_experience_months\",\"completed_courses\",\"average_assessment_score\",\"weekly_study_hours\",\"rest_knowledge_score\",\"database_knowledge_score\"],\"classes\":[\"AVANCADO\",\"INICIANTE\",\"INTERMEDIARIO\"],\"validation_accuracy\":0.9911504424778761,\"test_accuracy\":0.9733333333333334,\"test_macro_f1\":0.9733902323376008,\"confusion_matrix_labels\":[\"AVANCADO\",\"INICIANTE\",\"INTERMEDIARIO\"],\"confusion_matrix\":[[73,0,1],[0,74,2],[1,2,72]],\"classification_report\":{\"AVANCADO\":{\"precision\":0.9864864864864865,\"recall\":0.9864864864864865,\"f1-score\":0.9864864864864865,\"support\":74.0},\"INICIANTE\":{\"precision\":0.9736842105263158,\"recall\":0.9736842105263158,\"f1-score\":0.9736842105263158,\"support\":76.0},\"INTERMEDIARIO\":{\"precision\":0.96,\"recall\":0.96,\"f1-score\":0.96,\"support\":75.0},\"accuracy\":0.9733333333333334,\"macro avg\":{\"precision\":0.9733902323376008,\"recall\":0.9733902323376008,\"f1-score\":0.9733902323376008,\"support\":225.0},\"weighted avg\":{\"precision\":0.9733333333333334,\"recall\":0.9733333333333334,\"f1-score\":0.9733333333333334,\"support\":225.0}}}}"
+  },
+  "classificacao": {
+    "profile": "AVANCADO",
+    "probabilities": {
+      "AVANCADO": 0.500103,
+      "INICIANTE": 5e-06,
+      "INTERMEDIARIO": 0.499892
+    },
+    "model_version": "20261116T201847Z",
+    "synthetic_model": true
+  },
+  "seguranca": "401 anonimo, 403 outro aluno e agente sem consentimento, 200 proprio aluno"
+}

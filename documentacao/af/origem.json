@@ -1,0 +1,30 @@
+{
+  "base": "AC1 evoluida no B1",
+  "commit_b1": "665a423ff43246858e9e51620e4d029b674814e1",
+  "referencias": [
+    {
+      "arquivo": "2. Arquitetura_de_Software_IA_Evolucao_Monólito.pptx",
+      "sha256": "99b24cf2103e88396c8eda365566acd5c1366c14770a7490742967474d476dea"
+    },
+    {
+      "arquivo": "AF_Facens_v2.pdf",
+      "sha256": "a0484544a4cfaade814c4d2fbb6ec91bdabbca74d9da02f5e3e527a87f729d48"
+    },
+    {
+      "arquivo": "Exercicio_A4_Gabarito_Tecnico_V5_3_2_v1_FACENS.docx",
+      "sha256": "2722cf56515d3d8fbb867429fda51ce659d6b8f27afbd7db6f5e251349499a85"
+    },
+    {
+      "arquivo": "gamification-v5-3-2-ragas-graficos-corrigidos.zip",
+      "sha256": "d50174b6d755fd7d7fc585cdd956574c630e5eb301729e4bcce20c61373c0c5b"
+    },
+    {
+      "arquivo": "Laboratorio_V5_3_Monolito_Modular_Hexagonal.zip",
+      "sha256": "741fe1b247ced0310cba1994cf6f07e94192ec7d2d57024d19f1d719618fa718"
+    },
+    {
+      "arquivo": "microservices_v52_gateway_corrigido.zip",
+      "sha256": "d81b964613d8d630654510f2fd3170172b74d4b419791560beb51eeecd51875a"
+    }
+  ]
+}

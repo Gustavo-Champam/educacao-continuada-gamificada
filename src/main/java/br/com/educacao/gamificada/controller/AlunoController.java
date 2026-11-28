@@ -1,5 +1,6 @@
 package br.com.educacao.gamificada.controller;
 
+import br.com.educacao.gamificada.recompensa.dto.RecompensaResponse;
 import br.com.educacao.gamificada.dto.*;
 import br.com.educacao.gamificada.service.AlunoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,9 +17,9 @@ import java.util.List;
 @Tag(name = "Alunos", description = "US01 — Progressão de Básico para Premium")
 public class AlunoController {
     private final AlunoService servico;
-    private final br.com.educacao.gamificada.service.RecompensaService recompensas;
+    private final br.com.educacao.gamificada.recompensa.service.RecompensaService recompensas;
 
-    public AlunoController(AlunoService servico, br.com.educacao.gamificada.service.RecompensaService recompensas) {
+    public AlunoController(AlunoService servico, br.com.educacao.gamificada.recompensa.service.RecompensaService recompensas) {
         this.servico = servico;
         this.recompensas = recompensas;
     }
