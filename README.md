@@ -1,6 +1,8 @@
 # EducaTrilha AI — evolução da Educação Continuada Gamificada
 
-**AF v3 — RF02–RF05 implementados, entrega conjunta em revisão.** Spring Boot, FastAPI, Spring AI e Ollama integram o Compose. Veja a [entrega Camargo](documentacao/af/ENTREGA_CAMARGO.md), o [PR #2](https://github.com/Gustavo-Champam/educacao-continuada-gamificada/pull/2) e os checks por commit. Revisão humana, resolução dos alertas e apresentação ainda são necessárias.
+**AF v3 — RF02–RF05 integrados na branch principal `main`.** Spring Boot, FastAPI, Spring AI e Ollama integram o Compose. Os [PRs de Champam (#1)](https://github.com/Gustavo-Champam/educacao-continuada-gamificada/pull/1) e [Camargo (#2)](https://github.com/Gustavo-Champam/educacao-continuada-gamificada/pull/2) foram integrados em 28/11/2026, preservando o histórico e a autoria dos commits. Esta é a versão consolidada do projeto.
+
+**Estado das verificações:** os testes funcionais da versão integrada passaram, conforme as execuções de referência abaixo. O GitGuardian reporta seis alertas no histórico, ainda pendentes de triagem. A integração foi solicitada pelo mantenedor e não representa registro de aprovação formal dos PRs; a revisão existente no PR #1 é um comentário, não uma aprovação. Não se declara que todos os checks ou critérios de entrega estejam concluídos.
 
 | Integrante | RA | Responsabilidade AF |
 |---|---|---|
@@ -187,8 +189,11 @@ sequenceDiagram
 - Spring AI: `./mvnw -f orientacao-ai/pom.xml verify` (Windows: `mvnw.cmd -f orientacao-ai/pom.xml verify`). O módulo gera relatório JaCoCo próprio, sem alegação de cobertura de 100%.
 - Python: instalar `ml/requirements.txt` e executar `python -m unittest discover -s ml -p "test_*.py" -v`.
 - Docker: [workflow AF](.github/workflows/af.yml), integração HTTP, falhas, carga, navegador real e geração Ollama real via `scripts/validar-orientacao.py`. O artefato `af-integracao-real` contém os resultados por commit. [PR de Champam](https://github.com/Gustavo-Champam/educacao-continuada-gamificada/pull/1).
+- Referência da implementação consolidada: [Java, Vue e Docker aprovados](https://github.com/Gustavo-Champam/educacao-continuada-gamificada/actions/runs/45420310511) e [integração AF aprovada](https://github.com/Gustavo-Champam/educacao-continuada-gamificada/actions/runs/45420310468), associados ao código de `7e90de4`. Os merges preservaram esse conteúdo de implementação. O ensaio de 300 usuários mediu p95 de 0,521 s e zero erros nos 60 s medidos; houve três respostas 503 no aquecimento. Os resultados são específicos do ambiente de CI.
 - Detalhes e limites: [entrega técnica Champam](documentacao/af/ENTREGA_CHAMPAM.md). As métricas antigas em `documentacao/af/evidencias` são históricas e não validam automaticamente esta composição.
 
 Dados são sintéticos; autenticação é de laboratório; não há TLS, SSO nem garantia de desempenho em qualquer hardware. Modelo e metadados têm troca individual de arquivo, sem rollout transacional. A fila `ml.training.invalid` exige inspeção manual. Não há alta disponibilidade.
 
-A AF conjunta ainda exige revisão humana de ambos os PRs, resolução dos alertas de checks e merge após aprovação. Conforme a divisão registrada pela equipe, entregar GitHub e vídeo de 20 minutos no YouTube **não listado**, com ambos de câmera aberta, na sequência a–i. O PDF AF v3 recebido contém a avaliação escrita de arquitetura (itens a–e); confirmar o enunciado complementar que determina os detalhes do vídeo. Roteiros de ensaio não integram os fontes.
+A equipe informou que o vídeo foi gravado. Conforme o enunciado da atividade, a entrega consiste no link deste repositório e no link do vídeo de 20 minutos publicado no YouTube como **não listado**, com ambos de câmera aberta, na sequência a–i. A publicação e a submissão do vídeo não estão comprovadas neste repositório. Roteiros de ensaio não integram os fontes.
+
+Permanecem pendentes a triagem dos alertas GitGuardian e as aprovações formais de revisão exigidas pela atividade. Os registros anteriores em `documentacao/af` descrevem etapas do desenvolvimento; eventuais menções a RF03/RF04 ainda não integrados nesses registros históricos foram superadas por esta versão da `main`. As limitações do corpus didático, da autenticação de laboratório e da ausência de RAGAS continuam válidas.
