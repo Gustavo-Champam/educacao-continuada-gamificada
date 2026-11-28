@@ -77,7 +77,32 @@ services:
     volumes: ['./docker/gateway-af.conf:/etc/nginx/conf.d/default.conf:ro']
     depends_on: [core-af]
 
+  orientacao-af:
+    build: ./orientacao-ai
+    environment:
+      AF_SERVICE_TOKEN: ${AF_SERVICE_TOKEN:-af-demo-internal-2026}
+      OLLAMA_BASE_URL: http://ollama-af:11434
+      AF_CHAT_MODEL: ${AF_CHAT_MODEL:-qwen2.5:1.5b}
+  ollama-af:
+    image: ollama/ollama:0.13.0
+    volumes: ['ollama_af:/root/.ollama']
+    healthcheck:
+      test: ['CMD', 'ollama', 'list']
+      interval: 10s
+      timeout: 5s
+      retries: 20
+  ollama-init:
+    image: ollama/ollama:0.13.0
+    environment:
+      OLLAMA_HOST: http://ollama-af:11434
+      AF_CHAT_MODEL: ${AF_CHAT_MODEL:-qwen2.5:1.5b}
+    entrypoint: ['/bin/sh', '-ec']
+    command: ['ollama pull "$$AF_CHAT_MODEL"']
+    depends_on:
+      ollama-af: {condition: service_healthy}
+
 volumes:
+  ollama_af:
   postgres_af:
   rabbit_af:
   ml_af:

@@ -39,7 +39,8 @@ public class OrientacaoController {
  public record Avaliacao(@Min(0) @Max(120) double experienciaMeses,
   @Min(0) @Max(100) double nota, @Min(0) @Max(30) double horasSemanais,
   @Min(0) @Max(100) double conhecimentoRest, @Min(0) @Max(100) double conhecimentoBanco) {}
- public record Pergunta(@NotBlank @Size(max=1000) String pergunta, @NotBlank @Size(max=40) String perfil, boolean autorizaConsulta) {}
+ public record Pergunta(@NotBlank @Size(min=3,max=1000) String pergunta,
+   @NotBlank @Pattern(regexp="iniciante|intermediario|avancado") String perfil, boolean autorizaConsulta) {}
  @PostMapping("/alunos/{id}/classificacao")
  public JsonNode classificar(@PathVariable Long id,@Valid @RequestBody Avaliacao a){
   return classificacao.executar(id,a.experienciaMeses(),a.nota(),a.horasSemanais(),a.conhecimentoRest(),a.conhecimentoBanco());
@@ -50,9 +51,9 @@ public class OrientacaoController {
  }
  @PostMapping("/alunos/{id}/agente")
  public JsonNode agente(@PathVariable Long id,@Valid @RequestBody Pergunta p){
-  alunos.buscar(id);
   if(!p.autorizaConsulta())throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Autorize a consulta antes de executar o agente.");
-  return post(orientacao,"/agente",Map.of("pergunta",p.pergunta(),"perfil",p.perfil(),"autoriza_consulta",true));
+  var aluno=alunos.buscar(id);
+  return post(orientacao,"/agente",Map.of("pergunta",p.pergunta(),"perfil",p.perfil(),"autoriza_consulta",true,"progresso",Map.of("plano",aluno.plano().name(),"cursosConcluidos",aluno.cursosConcluidos())));
  }
  private JsonNode post(RestClient client,String path,Object body){
   try{return client.post().uri(path).header("X-AF-Service",serviceToken).body(body).retrieve().body(JsonNode.class);}
